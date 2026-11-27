@@ -1,0 +1,40 @@
+generators read: 442
+off-diagonal 4x4 minors: 35  span dim: 14
+septads (nonzero linear eliminants, R u C = Rbar u Cbar): 840  span dim: 120
+std(J_{8,3}) with degBound 16 done, ms: 641090  size: 15551
+generators in J: deg4 14  deg7 120  deg8 0
+generators not in J: 308
+dim of span of normal forms of the 260 degree-7 generators mod J (= dim I_7/J_7): 140
+degree-4 generators in the span of the minors: 14
+  squares checked: 10  ms: 939050
+  squares checked: 20  ms: 957290
+  squares checked: 30  ms: 983390
+  squares checked: 40  ms: 1010540
+  squares checked: 50  ms: 1038850
+  squares checked: 60  ms: 1070730
+  squares checked: 70  ms: 1119300
+  squares checked: 80  ms: 1145720
+  squares checked: 90  ms: 1198630
+  squares checked: 100  ms: 1253750
+  squares checked: 110  ms: 1313770
+  squares checked: 120  ms: 1364760
+  squares checked: 130  ms: 1410700
+  squares checked: 140  ms: 1465400
+  squares checked: 150  ms: 1471380
+  squares checked: 160  ms: 1477450
+  squares checked: 170  ms: 1483630
+  squares checked: 180  ms: 1489990
+  squares checked: 190  ms: 1496270
+  squares checked: 200  ms: 1502830
+  squares checked: 210  ms: 1508970
+  squares checked: 220  ms: 1515230
+  squares checked: 230  ms: 1521980
+  squares checked: 240  ms: 1529790
+  squares checked: 250  ms: 1537270
+  squares checked: 260  ms: 1544850
+  squares checked: 270  ms: 1552100
+  squares checked: 280  ms: 1559800
+  squares checked: 290  ms: 1567480
+  squares checked: 300  ms: 1574950
+squares in J: deg7 140  deg8 168  not in J: 0
+total ms: 1581220

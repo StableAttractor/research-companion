@@ -1,0 +1,36 @@
+name: Lean build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Installs the toolchain pinned in lean/lean-toolchain, fetches the Mathlib cache
+      # and runs `lake build` in lean/.
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: lean
+          use-mathlib-cache: true
+
+      # Every theorem of FreeDiagonal/Results.lean may use only propext, Classical.choice and
+      # Quot.sound (a `sorry` would show up here as sorryAx).
+      - name: Check axioms
+        working-directory: lean
+        run: |
+          lake env lean PrintAxioms.lean | tee axioms.txt
+          expected=$(grep -c '^#print axioms' PrintAxioms.lean)
+          found=$(grep -cE 'depends on axioms|does not depend on any axioms' axioms.txt)
+          echo "theorems: expected $expected, reported $found"
+          test "$found" -eq "$expected"
+          grep 'depends on axioms' axioms.txt | sed 's/.*\[\(.*\)\]/\1/' | tr ',' '\n' \
+            | tr -d ' ' | sort -u > used.txt
+          echo "axioms used:"; cat used.txt
+          if grep -vxE 'propext|Classical\.choice|Quot\.sound' used.txt; then
+            echo "unexpected axiom"; exit 1
+          fi

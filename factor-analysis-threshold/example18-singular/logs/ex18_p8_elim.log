@@ -1,0 +1,19 @@
+number of 4x4 minors: 4900
+elimination done, ms: 34060
+codim: 7
+degree: 1368
+mstd done, ms: 50420
+number of minimal generators: 442
+count by degree (index = degree):
+deg 4 : 14
+deg 7 : 260
+deg 8 : 168
+1,0,
+0,0,
+0,0,
+0,14,
+0,0,
+0,0,
+0,260,
+0,168 
+wrote ex18_I83min.txt

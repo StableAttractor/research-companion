@@ -1,0 +1,4 @@
+.lake/
+.DS_Store
+lean/axioms.txt
+lean/used.txt

@@ -1,0 +1,35 @@
+// Own construction of the linear eliminants of [DSS07] Corollary 10 (m = 3)
+// and the septads (R u C = Rbar u Cbar), from the definition in the arXiv text.
+// Requires a basering whose variables include p<a><b> for a<b (names p12 etc).
+proc offvar(int a, int b)
+{ if(a>b){int c=a; a=b; b=c;} string nm="p"+string(a)+string(b); return(`nm`); }
+proc detRC(intvec R, intvec C)            // det Psi[R x C], R, C disjoint
+{ int m=size(R); matrix A[m][m]; int u,v;
+  for(u=1;u<=m;u++){for(v=1;v<=m;v++){ A[u,v]=offvar(R[u],C[v]); }}
+  return(det(A)); }
+proc det0(int i, intvec R, intvec C)      // det Psi0[(i,R) x (i,C)], zero diagonal
+{ int m=size(R)+1; matrix A[m][m]; int u,v; intvec RR=i,R; intvec CC=i,C;
+  for(u=1;u<=m;u++){for(v=1;v<=m;v++){ if(RR[u]==CC[v]){A[u,v]=0;} else {A[u,v]=offvar(RR[u],CC[v]);} }}
+  return(det(A)); }
+proc linelim(int i, intvec R, intvec C, intvec Rb, intvec Cb)
+{ return(detRC(R,C)*det0(i,Rb,Cb) - detRC(Rb,Cb)*det0(i,R,C)); }
+// all unordered splits of a 6-element intvec S into two 3-sets: returns list of list(R,C)
+proc splits33(intvec S)
+{ list L; int a,b,c,u; intvec R,C;
+  for(a=2;a<=6;a++){ for(b=a+1;b<=6;b++){   // R contains S[1]
+     R = S[1],S[a],S[b]; C = 0:0; int first=1;
+     for(u=2;u<=6;u++){ if(u!=a && u!=b){ if(first){C=S[u];first=0;} else {C=C,S[u];} } }
+     L[size(L)+1] = list(R,C); kill first; }}
+  return(L); }
+// septads on the index set T (7 indices, increasing intvec)
+proc septadsOn(intvec T)
+{ ideal J; int ii,s,t; intvec S; list sp; poly f;
+  for(ii=1;ii<=7;ii++){
+    S = 0:0; int first=1;
+    for(s=1;s<=7;s++){ if(s!=ii){ if(first){S=T[s];first=0;} else {S=S,T[s];} } } kill first;
+    sp = splits33(S);
+    for(s=1;s<=size(sp);s++){ for(t=s+1;t<=size(sp);t++){
+       f = linelim(T[ii], sp[s][1], sp[s][2], sp[t][1], sp[t][2]);
+       if(f!=0){ J[size(J)+1]=f; } }}
+  }
+  return(J); }

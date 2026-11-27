@@ -1,0 +1,31 @@
+// Reproduction of [DSS07] Example 18, verbatim ring and commands, char 0.
+// Writes the minimal generators to ex18_I83min.txt for later steps.
+int t0 = timer; system("--ticks-per-sec",1000);
+ring R = 0,(p11,p22,p33,p44,p55,p66,p77,p88,
+            p12,p23,p34,p45,p56,p67,p78,p18,
+            p13,p24,p35,p46,p57,p68,p17,p28,
+            p14,p25,p36,p47,p58,p16,p27,p38, p15,p26,p37,p48),dp;
+matrix Psi[8][8] = p11,p12,p13,p14,p15,p16,p17,p18,
+                   p12,p22,p23,p24,p25,p26,p27,p28,
+                   p13,p23,p33,p34,p35,p36,p37,p38,
+                   p14,p24,p34,p44,p45,p46,p47,p48,
+                   p15,p25,p35,p45,p55,p56,p57,p58,
+                   p16,p26,p36,p46,p56,p66,p67,p68,
+                   p17,p27,p37,p47,p57,p67,p77,p78,
+                   p18,p28,p38,p48,p58,p68,p78,p88;
+ideal M83 = minor(Psi,4);
+"number of 4x4 minors:", size(M83);
+ideal I83 = eliminate(M83, p11*p22*p33*p44*p55*p66*p77*p88);
+"elimination done, ms:", timer-t0;
+"codim:", nvars(basering) - dim(std(I83)); "degree:", mult(std(I83));
+list L = mstd(I83);
+ideal I83min = L[2];
+"mstd done, ms:", timer-t0;
+"number of minimal generators:", size(I83min);
+int i; intvec dg = 0:20;
+for(i=1;i<=size(I83min);i++){ dg[deg(I83min[i])] = dg[deg(I83min[i])]+1; }
+"count by degree (index = degree):"; for(i=1;i<=20;i++){ if(dg[i]>0){ "deg",i,":",dg[i]; } }
+betti(I83min);
+write(":w ex18_I83min.txt", I83min);
+"wrote ex18_I83min.txt";
+quit;
