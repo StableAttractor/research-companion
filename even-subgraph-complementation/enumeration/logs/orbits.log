@@ -1,0 +1,10 @@
+|Sp(4,2)| = 720
+n=7: minimal forbidden multisets -> 1 isomorphism classes
+n=8: minimal forbidden multisets -> 18 isomorphism classes
+n=9: minimal forbidden multisets -> 48 isomorphism classes
+n=10: minimal forbidden multisets -> 31 isomorphism classes
+n=11: minimal forbidden multisets -> 11 isomorphism classes
+unordered bases: 840 ; orbits of their triplings: 4
+n=8: 18 orbit reps, isomorphic pairs among them: 0
+n=9: 48 orbit reps, isomorphic pairs among them: 0
+n=11: 11 orbit reps, isomorphic pairs among them: 0

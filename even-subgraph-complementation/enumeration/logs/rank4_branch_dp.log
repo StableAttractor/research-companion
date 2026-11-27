@@ -1,0 +1,12 @@
+n=4 multisets=3876 spanning(rank A=4)=840 obstructions(c2=5)=0 brute_force_tested=840 minimal=0 tripled=0 minimal_not_tripled=0
+n=5 multisets=15504 spanning(rank A=4)=6888 obstructions(c2=5)=0 brute_force_tested=6888 minimal=0 tripled=0 minimal_not_tripled=0
+n=6 multisets=54264 spanning(rank A=4)=33628 obstructions(c2=5)=0 brute_force_tested=33628 minimal=0 tripled=0 minimal_not_tripled=0
+n=7 multisets=170544 spanning(rank A=4)=126568 obstructions(c2=5)=120 brute_force_tested=126568 minimal=120 tripled=0 minimal_not_tripled=120
+n=8 multisets=490314 spanning(rank A=4)=404323 obstructions(c2=5)=9375 brute_force_tested=402508 minimal=7560 tripled=0 minimal_not_tripled=7560
+n=9 multisets=1307504 spanning(rank A=4)=1150168 obstructions(c2=5)=108160 brute_force_tested=1067208 minimal=25200 tripled=0 minimal_not_tripled=25200
+n=10 multisets=3268760 spanning(rank A=4)=2995804 obstructions(c2=5)=605596 brute_force_tested=2406168 minimal=15960 tripled=0 minimal_not_tripled=15960
+n=11 multisets=7726160 spanning(rank A=4)=7272904 obstructions(c2=5)=2356816 brute_force_tested=4921128 minimal=5040 tripled=0 minimal_not_tripled=5040
+n=12 multisets=17383860 spanning(rank A=4)=16658394 obstructions(c2=5)=7364086 brute_force_tested=9295148 minimal=840 tripled=840 minimal_not_tripled=0
+n=13 multisets=37442160 spanning(rank A=4)=36316944 obstructions(c2=5)=19866256 brute_force_tested=16450688 minimal=0 tripled=0 minimal_not_tripled=0
+n=14 multisets=77558760 spanning(rank A=4)=75860424 obstructions(c2=5)=48236476 brute_force_tested=27623948 minimal=0 tripled=0 minimal_not_tripled=0
+n=15 multisets=155117520 spanning(rank A=4)=152614624 obstructions(c2=5)=108177816 brute_force_tested=44436808 minimal=0 tripled=0 minimal_not_tripled=0

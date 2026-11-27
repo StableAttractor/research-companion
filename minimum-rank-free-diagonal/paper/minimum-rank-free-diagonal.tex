@@ -40,14 +40,14 @@
 \raggedbottom
 \makeatletter\newcommand\keepwithproof{\@endparpenalty=10000 }\makeatother
 \title[The Sharp $2k+2$ Obstruction Bound for Minimum-Rank Completion with a Free Diagonal]{The Sharp $2k+2$ Obstruction Bound for Minimum-Rank Completion with a Free Diagonal\\[6pt] {\mdseries\small With Consequences for Graph Minimum Rank over $\mathbb{F}_2$ and for Subgraph Complementation}}
-\date{24 November 2026}
+\date{27 November 2026}
 \subjclass[2020]{Primary 15A83, 05C50; Secondary 15A03, 05C75, 05B35}
 \keywords{Minimum rank, matrix completion, free diagonal, forbidden induced subgraph, finite field, matroid union}
 \pagestyle{plain}
 \renewcommand{\abstractname}{Summary}
 \begin{document}
 \begin{abstract}
-A matrix of rank \(r\) has an \(r \times r\) non-zero minor, on at most \(2r\) indices. The same holds when the diagonal is free: if \(c\) is the least rank over all choices of the diagonal, some set of at most \(c + j \le 2c\) indices already forces rank \(c\), where \(j\) is the largest rank of an off-diagonal block cut out by a bipartition of the indices. Consequently a minimal obstruction to ``least rank \(\le k\)'' has at most \(2k+2\) indices, over any field, symmetric or not, and this is sharp. Over \(\mathbb{F}_2\): every minimal forbidden induced subgraph for \(\operatorname{mr}(\mathbb{F}_2, G) \le k\) has at most \(2k+2\) vertices. Previously this was known for \(k \le 3\) from the explicit lists {[}BvHL05, BGL09{]}; the general bound of Ding and Kotlov {[}DK06{]}, \((\lvert F\rvert^k/2 + 1)^2\), is exponential in \(k\). As an application, we settle the subgraph-complementation conjecture of Buchanan, Purcell and Rombach {[}BPR22{]}: the bound \(2k+2\) holds for every odd \(k\) and fails for every even \(k \ge 4\). All results are formalized in Lean 4.
+A matrix of rank \(r\) has an \(r \times r\) non-zero minor, on at most \(2r\) indices. The same holds when the diagonal is free: if \(c\) is the least rank over all choices of the diagonal, some set of at most \(c + j \le 2c\) indices already forces rank \(c\), where \(j\) is the largest rank of an off-diagonal block cut out by a bipartition of the indices. Consequently a minimal obstruction to ``least rank \(\le k\)'' has at most \(2k+2\) indices, over any field, symmetric or not, and this is sharp. Over \(\mathbb{F}_2\): every minimal forbidden induced subgraph for \(\operatorname{mr}(\mathbb{F}_2, G) \le k\) has at most \(2k+2\) vertices. Previously this was known for \(k \le 3\) from the explicit lists {[}BvHL05, BGL09{]}; the general bound of Ding and Kotlov {[}DK06{]}, \((\lvert F\rvert^k/2 + 1)^2\), is exponential in \(k\). As an application, we decide the subgraph-complementation conjecture of Buchanan, Purcell and Rombach {[}BPR22{]}: the bound \(2k+2\) holds for every odd \(k\) and, as follows quickly from {[}BPR22{]}, fails for every even \(k \ge 4\). All results are formalized in Lean 4.
 
 \end{abstract}
 \maketitle
@@ -113,7 +113,7 @@ For \(F \ne \mathbb{F}_2\), \(\operatorname{mr}(F, G)\) also minimises over the 
 \newpage\hypertarget{the-subgraph-complementation-conjecture}{%
 \section{The subgraph complementation conjecture}\label{the-subgraph-complementation-conjecture}}
 
-Let \(c_2(G)\) be the least number of vertex subsets whose cliques sum modulo 2 to \(G\). Buchanan, Purcell and Rombach {[}BPR22{]} show \(\operatorname{mr}(\mathbb{F}_2, G) \le c_2(G) \le \operatorname{mr}(\mathbb{F}_2, G) + 1\) and that for odd \(k\), \(c_2(G) \le k\) if and only if \(\operatorname{mr}(\mathbb{F}_2, G) \le k\). They conjecture that every minimal forbidden induced subgraph for \(c_2 \le k\) has at most \(2k+2\) vertices, and prove it for \(k = 2\).
+Let \(c_2(G)\) be the least number of vertex subsets whose cliques sum modulo 2 to \(G\). Buchanan, Purcell and Rombach {[}BPR22{]} show \(\operatorname{mr}(\mathbb{F}_2, G) \le c_2(G) \le \operatorname{mr}(\mathbb{F}_2, G) + 1\) and that for odd \(k\), \(c_2(G) \le k\) if and only if \(\operatorname{mr}(\mathbb{F}_2, G) \le k\). They conjecture that every minimal forbidden induced subgraph for \(c_2 \le k\) has at most \(2k+2\) vertices; this was known for \(k \le 3\) ({[}BPR22, Theorem~26 and Proposition 22{]}, {[}BGL09{]}).
 
 \begin{theorem}
 The conjecture holds for every odd \(k\), and fails for every even \(k \ge 4\).
@@ -121,21 +121,21 @@ The conjecture holds for every odd \(k\), and fails for every even \(k \ge 4\).
 
 \emph{Proof.} Odd \(k\): let \(H\) be minimal forbidden for \(c_2 \le k\). Its proper induced subgraphs have \(\operatorname{mr} \le c_2 \le k\), and \(\operatorname{mr}(H) \ge k+1\), since otherwise \(c_2(H) \le k\). So \(H\) is minimal forbidden for \(\operatorname{mr} \le k\), and Corollary~3 applies.
 
-Even \(k = 2m \ge 4\): let \(H = mK_{3,3}\), on \(3k > 2k+2\) vertices. By {[}L75{]}, a non-zero symmetric matrix over \(\mathbb{F}_2\) of rank \(r\) is a sum of \(r\) matrices \(vv^{\mathsf T}\) and no fewer if its diagonal is non-zero, and of \(r+1\) and no fewer if its diagonal is zero; so \(c_2\) is the least such count over completions (and \(0\) for the zero matrix). \(K_{3,3}\) has minimum rank 2, and its only completion of rank 2 is its adjacency matrix (64 diagonals to check). Completions of \(H\) are block diagonal, so the only one of rank \(2m\) has zero diagonal, and \(c_2(H) = 2m+1\). Deleting a vertex leaves a component \(K_{2,3}\), which has a completion of rank 2 with a non-zero diagonal, so \(c_2\) drops to at most \(2m\); and \(c_2\) does not increase on induced subgraphs. \qed
+Even \(k = 2m \ge 4\): this is a short consequence of {[}BPR22, Theorem~16 and Example 6{]}, and we give the argument. Let \(H = mK_{3,3}\), on \(3k > 2k+2\) vertices. By {[}L75{]} (see also {[}BPR22, Theorem~11{]}), a non-zero symmetric matrix over \(\mathbb{F}_2\) of rank \(r\) is a sum of \(r\) matrices \(vv^{\mathsf T}\) and no fewer if its diagonal is non-zero, and of \(r+1\) and no fewer if its diagonal is zero; so \(c_2\) is the least such count over completions (and \(0\) for the zero matrix). \(K_{3,3}\) has minimum rank 2, and its only completion of rank 2 is its adjacency matrix (64 diagonals to check). Completions of \(H\) are block diagonal, so the only one of rank \(2m\) has zero diagonal, and \(c_2(H) = 2m+1\). Deleting a vertex leaves a component \(K_{2,3}\), which has a completion of rank 2 with a non-zero diagonal, so \(c_2\) drops to at most \(2m\); and \(c_2\) does not increase on induced subgraphs. \qed
 
-For even \(k \ge 4\) the sharp bound is at least \(3k\); its exact value is open. Counterexamples built from disjoint copies of the five-vertex wheel \(W_5\) (a 4-cycle with a hub) were proposed in {[}PX26{]}; they exceed \(2k+2\) from \(k = 6\) on.
+For even \(k \ge 4\) the sharp bound is exactly \(3k\) {[}ESC26{]}. Counterexamples built from disjoint copies of the five-vertex wheel \(W_5\) (a 4-cycle with a hub) had been posted earlier {[}PX26{]}; they exceed \(2k+2\) from \(k = 6\) on.
 
 \hypertarget{relation-to-known-results}{%
 \section{Relation to known results}\label{relation-to-known-results}}
 
 Over \(\mathbb{F}_2\) the exact lists of minimal forbidden induced subgraphs for \(k = 2\) {[}BvHL05{]} and \(k = 3\) {[}BGL09{]} have largest members on 6 and 8 vertices, as Corollary~3 predicts, and an exhaustive search over all graphs on at most 8 vertices reproduces both lists. Grout {[}G10{]} characterised the graphs with \(\operatorname{mr}(\mathbb{F}_q, G) \le k\) for all \(k\) and \(q\) and asked how to obtain results on their minimal forbidden subgraphs from that classification; Corollary~3 gives the sharp size bound over \(\mathbb{F}_2\) by a different route.
 
-Two lower bounds for minimum rank, maximum cut-rank ({[}NO20{]}, Theorem~6.1) and \(\lvert V(G)\rvert\) minus the zero forcing number ({[}A+26{]}, Theorem~5), were known to have obstruction threshold \(2k+2\); Corollary~3 shows that over \(\mathbb{F}_2\) the minimum rank itself does. Maximum cut-rank is the parameter \(j\), and accounts for the easy case \(j \ge k+1\) of Theorem~2; Theorem~1 handles the case \(j \le k < c\). Fiedler and Markham {[}FM87{]} introduced the off-diagonal rank for this completion problem and showed \(c = j\) under a strong genericity hypothesis; Theorem~1 needs no hypothesis and covers the regime in which \(c\) exceeds \(j\). To our knowledge Theorems~1 and 2 are new.
+Two lower bounds for minimum rank, maximum cut-rank ({[}NO20{]}, Theorem~6.1) and \(\lvert V(G)\rvert\) minus the zero forcing number ({[}A+26{]}, Theorem~5), were known to have obstruction threshold \(2k+2\); Corollary~3 shows that over \(\mathbb{F}_2\) the minimum rank itself does. Maximum cut-rank is the parameter \(j\), and accounts for the easy case \(j \ge k+1\) of Theorem~2; Theorem~1 handles the case \(j \le k < c\). Fiedler and Markham {[}FM87{]} introduced the off-diagonal rank for this completion problem and showed \(c = j\) when every \(j \times j\) submatrix avoiding the diagonal is non-singular and \(n \ge 3j\) {[}FM87, Theorem~3.1{]}; Theorem~1 needs no hypothesis and covers the regime in which \(c\) exceeds \(j\). To our knowledge Theorems~1 and 2 are new.
 
-\newpage\hypertarget{formalization}{%
+\hypertarget{formalization}{%
 \section{Formalization}\label{formalization}}
 
-Every numbered statement, including the facts from {[}L75{]} and {[}BPR22{]} that the proofs use, is formalized in Lean 4 {[}Lean4{]} with Mathlib {[}Mathlib{]}, with no axioms beyond Lean's standard ones: \href{https://github.com/StableAttractor/research-companion/tree/6ea6f9c5e396a67cb100720ea44652ff521a2db8}{github.com/\allowbreak{}StableAttractor/\allowbreak{}\mbox{research-companion}} (commit \texttt{6ea6f9c}), file \texttt{lean/\allowbreak{}FreeDiagonal/\allowbreak{}Results.lean}.
+Every numbered statement, including the facts from {[}L75{]} and {[}BPR22{]} that the proofs use, is formalized in Lean 4 {[}Lean4{]} with Mathlib {[}Mathlib{]}, with no axioms beyond Lean's standard ones: \href{https://github.com/StableAttractor/research-companion/tree/6ea6f9c5e396a67cb100720ea44652ff521a2db8}{github.com/\allowbreak{}StableAttractor/\allowbreak{}\mbox{research-companion}} (commit \texttt{6ea6f9c}), file \texttt{lean/\allowbreak{}FreeDiagonal/\allowbreak{}Results.lean}; the table in \texttt{minimum-rank-free-diagonal/\allowbreak{}README.md} maps each statement to its Lean name, whose numbering follows an earlier draft.
 
 \begin{thebibliography}{Mathlib}
 \footnotesize\linespread{1}\selectfont\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
@@ -144,6 +144,7 @@ Every numbered statement, including the facts from {[}L75{]} and {[}BPR22{]} tha
 \bibitem[BPR22]{BPR22} C. Buchanan, C. Purcell, P. Rombach, \emph{Subgraph complementation and minimum rank}. Electronic Journal of Combinatorics 29(1) (2022), P1.38. arXiv:2101.06180.
 \bibitem[BvHL05]{BvHL05} W. Barrett, H. van der Holst, R. Loewy, \emph{Graphs whose minimal rank is two: the finite fields case}. Electronic Journal of Linear Algebra 14 (2005), 32--42. doi:10.13001/1081-3810.1175.
 \bibitem[DK06]{DK06} G. Ding, A. Kotlov, \emph{On minimal rank over finite fields}. Electronic Journal of Linear Algebra 15 (2006), 210--214. doi:10.13001/1081-3810.1231.
+\bibitem[ESC26]{ESC26} \emph{The sharp 3k obstruction bound for subgraph complementation at even k}. Companion paper, 2026. \textless{}\url{https://github.com/StableAttractor/research-companion}.\textgreater{}
 \bibitem[FM87]{FM87} M. Fiedler, T. L. Markham, \emph{Rank-preserving diagonal completions of a matrix}. Linear Algebra and its Applications 85 (1987), 49--56. doi:10.1016/0024-3795(87)90207-2.
 \bibitem[G10]{G10} J. Grout, \emph{The minimum rank problem over finite fields}. Electronic Journal of Linear Algebra 20 (2010), 691--716. arXiv:0801.2987.
 \bibitem[L75]{L75} A. Lempel, \emph{Matrix factorization over \(GF(2)\) and trace-orthogonal bases of \(GF(2^n)\)}. SIAM Journal on Computing 4(2) (1975), 175--186. doi:10.1137/0204014.
@@ -151,6 +152,6 @@ Every numbered statement, including the facts from {[}L75{]} and {[}BPR22{]} tha
 \bibitem[Mathlib]{Mathlib} The mathlib Community, \emph{The Lean mathematical library}. In: Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP 2020), ACM, 2020, 367--381. doi:10.1145/3372885.3373824. arXiv:1910.09336.
 \bibitem[NO20]{NO20} H.-T. Nguyen, S. Oum, \emph{The average cut-rank of graphs}. European Journal of Combinatorics 90 (2020), 103183. arXiv:1906.02895.
 \bibitem[Ox11]{Ox11} J. Oxley, \emph{Matroid Theory}, 2nd edition. Oxford University Press, 2011.
-\bibitem[PX26]{PX26} ProbXiv, \emph{Subgraph complementation and minimum rank}, problem page dated 17 August 2026. \url{https://probxiv.com/problems/subgraph-complementation-and-minimum-rank}
+\bibitem[PX26]{PX26} ProbXiv, \emph{Subgraph complementation and minimum rank}, problem page dated 17 August 2026, offline as of 27 November 2026. \url{https://probxiv.com/problems/subgraph-complementation-and-minimum-rank}
 \end{thebibliography}
 \end{document}

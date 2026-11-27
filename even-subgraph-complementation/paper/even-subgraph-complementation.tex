@@ -1,0 +1,168 @@
+\documentclass[11pt,letterpaper,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[final]{microtype}
+\usepackage[top=1.2in,bottom=1.2in,left=1.35in,right=1.35in]{geometry}
+\usepackage{amssymb}
+\usepackage{array,calc,booktabs,enumitem,needspace,etoolbox,float}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,urlcolor=MidnightBlue,citecolor=MidnightBlue]{hyperref}
+\providecommand{\tightlist}{\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}}
+\setlist[itemize]{topsep=4pt,itemsep=5pt,leftmargin=1.6em}
+\setlist[enumerate]{topsep=4pt,itemsep=4pt,leftmargin=2em}
+\newtheoremstyle{spaced}{14pt}{14pt}{\itshape}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{spaced}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}{Lemma}
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}{1.3\linespacing\@plus.6\linespacing}{.4\linespacing}{\normalfont\bfseries}}
+\makeatother
+\makeatletter
+\linespread{1.08}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt plus 2pt minus 1pt}
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{12pt plus 3pt minus 2pt}%
+  \setlength\belowdisplayskip{12pt plus 3pt minus 2pt}%
+  \setlength\abovedisplayshortskip{10pt plus 3pt minus 2pt}%
+  \setlength\belowdisplayshortskip{10pt plus 3pt minus 2pt}}
+\setlength{\jot}{6pt}
+\makeatother
+\widowpenalty=10000 \clubpenalty=10000 \displaywidowpenalty=10000
+\predisplaypenalty=10000 \postdisplaypenalty=0
+\AtBeginEnvironment{theorem}{\interlinepenalty=10000 \keepwithproof}\AtBeginEnvironment{corollary}{\interlinepenalty=10000 \keepwithproof}\AtBeginEnvironment{lemma}{\interlinepenalty=10000 \keepwithproof}
+\AtBeginEnvironment{itemize}{\interlinepenalty=10000 }\AtBeginEnvironment{enumerate}{\interlinepenalty=10000 }\AtBeginEnvironment{thebibliography}{\interlinepenalty=10000 }
+\setlength{\emergencystretch}{2em}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}\renewcommand{\textfraction}{0.08}\renewcommand{\floatpagefraction}{0.8}
+\makeatletter\@secpenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0 \makeatother
+\raggedbottom
+\makeatletter\newcommand\keepwithproof{\@endparpenalty=10000 }\makeatother
+\title[The Sharp $3k$ Obstruction Bound for Subgraph Complementation at Even $k$]{The Sharp $3k$ Obstruction Bound for Subgraph Complementation at Even $k$\\[6pt] {\mdseries\small With a Classification of the Extremal Graphs}}
+\date{27 November 2026}
+\subjclass[2020]{Primary 05C75, 05C50; Secondary 15A83, 15A03, 05B35}
+\keywords{Subgraph complementation, minimum rank, forbidden induced subgraph, free diagonal, matroid base packing, finite field}
+\pagestyle{plain}
+\renewcommand{\abstractname}{Summary}
+\begin{document}
+\begin{abstract}
+For every even \(k \ge 2\), the largest minimal forbidden induced subgraphs for \(c_2(G) \le k\), where \(c_2\) is the subgraph complementation number, have exactly \(3k\) vertices, and for \(k \ge 4\) they are exactly the graphs obtained from a graph on \(k\) vertices with non-singular adjacency matrix over \(\mathbb{F}_2\) by replacing each vertex with three pairwise non-adjacent twins. Buchanan, Purcell and Rombach {[}BPR22{]} conjectured the bound \(2k+2\) for every \(k\); it holds for every odd \(k\) {[}FD26{]} and fails for every even \(k \ge 4\) ({[}PX26{]} for \(k \ge 6\), {[}FD26{]}), and the results above settle the even case. The proof rests on a statement about symmetric matrices over any field: if a matrix of rank \(k\) is the only matrix of rank at most \(k\) with its off-diagonal entries, then the same is true of one of its principal submatrices on at most \(3k\) indices. For \(k = 4\) an exhaustive search over graphs on at most 15 vertices agrees with the bound and the classification. All results are formalized in Lean 4.
+
+\end{abstract}
+\maketitle
+\begin{quote}\small
+\textsc{Disclosure.} The argument was produced by AI systems (ChatGPT, OpenAI; Claude, Anthropic). It has not yet been peer reviewed. Contact: stableattractor@gmail.com.
+
+\end{quote}
+\smallskip
+\hypertarget{setting}{%
+\section{Setting}\label{setting}}
+
+Graphs are finite and simple. For a graph \(G\) on \(E = \{1, \dots, n\}\) let \(A\) be its adjacency matrix over \(\mathbb{F}_2\). A \emph{completion} of \(G\) is a matrix \(A + D\) with \(D\) diagonal, and \(\operatorname{mr}(G) = \operatorname{mr}(\mathbb{F}_2, G)\) is the least rank of a completion. The subgraph complementation number \(c_2(G)\) is the least number of vertex subsets whose cliques sum modulo 2 to \(G\) {[}BPR22{]}. We use four facts: (a) to (c) are from {[}L75{]} and {[}BPR22, Lemma~9 to Corollary~12{]}, and (d) is the main result of the companion paper {[}FD26{]}:
+
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\tightlist
+\item
+  \(c_2(G)\) is the least value of \(f(M)\) over the completions \(M\) of \(G\), where \(f(M) = \operatorname{rank} M\) if \(M = 0\) or \(M\) has a non-zero diagonal entry, and \(f(M) = \operatorname{rank} M + 1\) otherwise;
+\item
+  \(c_2\) does not increase on induced subgraphs;
+\item
+  a symmetric matrix over \(\mathbb{F}_2\) with zero diagonal has even rank;
+\item
+  every minimal forbidden induced subgraph for \(\operatorname{mr}(G) \le k\) has at most \(2k+2\) vertices ({[}FD26{]}, Corollary~3).
+\end{enumerate}
+
+Call \(G\) \emph{\(k\)-rigid} if \(A\) has rank \(k\) and \(\operatorname{rank}(A + D) > k\) for every non-zero diagonal \(D\): the adjacency matrix is the only completion of rank at most \(k\). This is the condition of {[}BPR22, Theorem~13{]}.
+
+\begin{lemma}
+If \(G\) is \(k\)-rigid with \(k \ge 1\), then \(k\) is even and \(c_2(G) = k+1\). For every \(k \ge 0\), if \(c_2(G) > k\), then \(\operatorname{mr}(G) > k\) or \(G\) is \(k\)-rigid.
+\end{lemma}
+
+\emph{Proof.} This is {[}BPR22, Corollary~12 and Theorem~13{]} in our notation; we include the short proof from (a). Let \(G\) be \(k\)-rigid. By (a), the completion \(A\) has \(f = k+1\) and every other completion has \(f\) equal to its rank, which exceeds \(k\); so \(c_2(G) = k+1\), and \(k\) is even by (c). Now let \(c_2(G) > k \ge \operatorname{mr}(G)\). By (a) every completion with a non-zero diagonal entry has rank above \(k\), so \(A\) is the only completion of rank at most \(k\); and \(\operatorname{rank} A = k\), since \(\operatorname{rank} A < k\) would give \(f(A) \le k\). \qed
+
+The \emph{tripling} of a graph \(G_0\) replaces each vertex by three pairwise non-adjacent vertices and each edge by all nine edges between the two triples. The tripling of a perfect matching on \(2m\) vertices is \(mK_{3,3}\).
+
+\hypertarget{a-witness-for-a-unique-optimal-diagonal}{%
+\section{A witness for a unique optimal diagonal}\label{a-witness-for-a-unique-optimal-diagonal}}
+
+In this section \(F\) is any field and \(A\) is a symmetric \(n \times n\) matrix over \(F\) of rank \(k\). Choosing \(k\) independent rows, with index set \(B\), the block \(A[B, B]\) is invertible and \(A = U S U^{\mathsf T}\) with \(S = A[B, B]\) and \(U = A[E, B]\,S^{-1}\), an \(n \times k\) matrix of rank \(k\). Write \(u_i\) for row \(i\) of \(U\) and \(\rho(X)\) for the rank of the rows \(u_i\), \(i \in X\).
+
+\begin{lemma}[Rank formula]
+Let \(D\) be a diagonal matrix with support \(T\). Let \(V\) be the span of the rows \(u_i\) with \(i \notin T\), of dimension \(r\), let \(V^{\perp} = \{x \in F^k : ux = 0 \text{ for all } u \in V\}\), and let \(H_T = -S^{-1} - \sum_{i \in T} D_{ii}^{-1} u_i^{\mathsf T} u_i\). Then \(\operatorname{rank}(A + D) = \lvert T\rvert + 2r - k + \operatorname{rank}(H_T|_{V^{\perp}})\), where the last term is the rank of the bilinear form \(x^{\mathsf T} H_T\, y\) restricted to \(V^{\perp}\). The formula holds for any factorisation \(A = U S U^{\mathsf T}\) with \(S\) an invertible \(k \times k\) matrix, \(u_i\) the rows of \(U\).
+\end{lemma}
+
+\emph{Proof.} Let \(N\) be the symmetric matrix of size \(n + k\) with blocks \(D\), \(U\), \(U^{\mathsf T}\), \(-S^{-1}\). Eliminating with the block \(-S^{-1}\) gives \(\operatorname{rank} N = k + \operatorname{rank}(A + D)\). Eliminating instead with the invertible block \(D[T, T]\) gives \(\operatorname{rank} N = \lvert T\rvert + \operatorname{rank} N'\), where \(N'\) has blocks \(0\), \(W\), \(W^{\mathsf T}\), \(H_T\) and \(W\) consists of the rows \(u_i\), \(i \notin T\). A matrix of this shape has rank \(2\operatorname{rank} W + \operatorname{rank}(H_T|_{\ker W})\): in coordinates in which \(W\) is an identity block of size \(r\) bordered by zeros, the \(r\) paired coordinates form an invertible block whose inverse has a zero block where it meets \(H_T\), so eliminating it leaves \(H_T\) on \(\ker W = V^{\perp}\) unchanged. Comparing the two counts gives the formula. \qed
+
+In particular \(\operatorname{rank}(A + D) \ge \lvert T\rvert + k - 2d\) with \(d = k - r\).
+
+\begin{lemma}[Witness]
+Suppose \(\operatorname{rank}(A + D) > k\) for every non-zero diagonal \(D\). Let \(X \subseteq E\) maximise \(\lvert X\rvert - 3\rho(X)\). Then the rows indexed by \(X\) contain three pairwise disjoint bases \(B_1, B_2, B_3\) of their span, and for \(I = (E \setminus X) \cup B_1 \cup B_2 \cup B_3\) the principal submatrix \(A[I, I]\) has rank \(k\) and satisfies \(\operatorname{rank}(A[I, I] + D) > k\) for every non-zero diagonal \(D\). Moreover \(\lvert I\rvert = n - (\lvert X\rvert - 3\rho(X)) \le 3k\).
+\end{lemma}
+
+\emph{Proof.} For \(Z \subseteq X\) the choice of \(X\) gives \(\lvert X \setminus Z\rvert \ge 3(\rho(X) - \rho(Z))\), which is the condition of Edmonds's base packing theorem {[}E65, Theorem~2{]} for three disjoint bases. Comparing with \(X = E\) gives \(\lvert X\rvert - 3\rho(X) \ge n - 3k\). The rows in \(X\) are spanned by those in \(B_1\), so the rows in \(I\) span \(F^k\) and \(A[I, I]\) has rank \(k\).
+
+\begingroup\interlinepenalty=10000 Let \(D \ne 0\) be diagonal on \(I\) with support \(T\) and suppose \(\operatorname{rank}(A[I, I] + D) \le k\). Let \(D'\) be \(D\) with its entries on \(X\) set to zero, \(t = \lvert T \cap X\rvert\), and apply Lemma~2 on the ground set \(I\) to \(D\) and to \(D'\), with spans \(V \subseteq V'\). Every index of \(I \cap X\) lies outside \(T\) or in \(T \cap X\), and \(T \cap X \subseteq X\), so \(V' = V + \operatorname{span}\{u_i : i \in X\}\); put \(d = \dim V' - \dim V\). Each \(B_a\) spans \(V'/V\), and its rows outside \(T\) lie in \(V\), so at least \(d\) of its rows lie in \(T\): hence \(t \ge 3d\). The terms of \(H_T\) with \(i \in T \cap X\) vanish on \(V'^{\perp} \subseteq V^{\perp}\), so the restricted rank does not increase, and Lemma~2 gives
+\[\operatorname{rank}(A[I, I] + D') \le \operatorname{rank}(A[I, I] + D) - t + 2d \le k,\postdisplaypenalty=10000 \]
+with strict inequality if \(t > 0\). If \(D' = 0\) then \(t > 0\) and this contradicts \(\operatorname{rank} A[I, I] = k\). If \(D' \ne 0\), extend it by zero to \(E\). Its support misses \(X\), and the rows indexed by \(E \setminus I\) lie in the span of \(B_1\), so the data of Lemma~2 are the same on \(E\) as on \(I\) and \(\operatorname{rank}(A + D') \le k\), contrary to the hypothesis. \qed\par\endgroup
+
+\hypertarget{the-bound-and-the-extremal-graphs}{%
+\section{The bound and the extremal graphs}\label{the-bound-and-the-extremal-graphs}}
+
+\begin{theorem}
+Let \(k \ge 2\) be even. Every graph with \(c_2(G) > k\) has an induced subgraph on at most \(3k\) vertices with \(c_2 > k\). Hence every minimal forbidden induced subgraph for \(c_2(G) \le k\) has at most \(3k\) vertices.
+\end{theorem}
+
+\emph{Proof.} By Lemma~1, \(\operatorname{mr}(G) > k\) or \(G\) is \(k\)-rigid. In the first case (d) gives an induced subgraph on at most \(2k+2 \le 3k\) vertices with \(c_2 \ge \operatorname{mr} > k\), using \(c_2 \ge \operatorname{mr}\) from (a). In the second, Lemma~3 over \(\mathbb{F}_2\) gives a \(k\)-rigid induced subgraph \(G[I]\) with \(\lvert I\rvert \le 3k\), and \(c_2(G[I]) = k+1\) by Lemma~1. \qed
+
+\begin{theorem}
+Let \(k \ge 2\) be even. The tripling of any graph on \(k\) vertices whose adjacency matrix is non-singular over \(\mathbb{F}_2\) is a minimal forbidden induced subgraph for \(c_2(G) \le k\), on \(3k\) vertices. For \(k \ge 4\), every minimal forbidden induced subgraph for \(c_2(G) \le k\) on \(3k\) vertices is such a tripling.
+\end{theorem}
+
+\emph{Proof.} Let \(A_0\) be the adjacency matrix of \(G_0\), non-singular, and \(G\) the tripling. That \(G\) is \(k\)-rigid is a case of {[}FM87, Theorem~3.4{]} (cf.~{[}A44b, Lemma~3{]}, {[}AR56, Theorem~5.1{]}); we include the short argument. Then \(A = U A_0 U^{\mathsf T}\), where \(U\) has each unit vector \(e_1, \dots, e_k\) as a row three times. For \(D \ne 0\) with support \(T\) and \(d = k - \dim V\), each of the three copies of the basis has at least \(d\) rows in \(T\), so \(\lvert T\rvert \ge 3d\), while \(\operatorname{rank}(A + D) \le k\) would need \(\lvert T\rvert \le 2d\) by Lemma~2, which is impossible for \(T \ne \emptyset\); so \(G\) is \(k\)-rigid and \(c_2(G) = k+1\). Delete a vertex \(v\), a copy of \(e_1\) say, and let \(D = 1\) on the two other copies of \(e_1\) and \(0\) elsewhere. Then \(\lvert T\rvert = 2\), \(r = k-1\), \(V^{\perp}\) is spanned by \(e_1\), and \(H_T = A_0^{-1}\) (over \(\mathbb{F}_2\), \(-S^{-1} = S^{-1}\) and the two terms for the copies of \(e_1\) cancel) has zero diagonal, as the inverse of a non-singular symmetric matrix with zero diagonal over \(\mathbb{F}_2\). By Lemma~2 the rank is \(2 + 2(k-1) - k = k\), so \(c_2(G - v) \le k\) by (a), and (b) covers the smaller induced subgraphs.
+
+Conversely let \(k \ge 4\) and let \(G\) be minimal forbidden on \(3k\) vertices. Since \(2k+2 < 3k\), (d) excludes \(\operatorname{mr}(G) > k\), so \(G\) is \(k\)-rigid by Lemma~1. By Lemma~3 and minimality, \(\lvert X\rvert - 3\rho(X) \le 0\) for every \(X\), so \(X = E\) is a maximiser and \(E\) is the union of three disjoint bases \(B_1, B_2, B_3\). Fix a vertex \(v\). Two of the bases avoid \(v\), so \(A[E - v]\) has rank \(k\); as \(c_2(G - v) \le k\), by (a) there is a diagonal \(D \ne 0\) on \(E - v\), with support \(T\), such that \(\operatorname{rank}(A[E - v] + D) \le k\). With \(V\) the span of the rows outside \(T \cup \{v\}\) and \(d = k - \dim V\), each basis has at least \(d\) rows in \(T \cup \{v\}\), so \(\lvert T\rvert + 1 \ge 3d\), and Lemma~2 gives \(1 \le \lvert T\rvert \le 2d\). Hence \(d = 1\) and \(\lvert T\rvert = 2\), and \(T \cup \{v\}\) has one index in each basis. For the non-zero \(x \in V^{\perp}\), the vector \(Ux\) vanishes outside \(T \cup \{v\}\) and is non-zero on each basis, so its support is exactly \(T \cup \{v\}\): every vertex lies in the support of a vector of weight three in the column space \(C\) of \(U\).
+
+A non-zero vector of \(C\) is non-zero on each basis, and a vector of \(C\) is determined by its restriction to \(B_1\). So a vector of weight three has one coordinate in each basis, and, over \(\mathbb{F}_2\), there are at most \(k\) of them; as they cover \(B_1\), \(B_2\) and \(B_3\), there are exactly \(k\), with disjoint supports. They are independent, hence a basis of \(C\), so every column of \(U\) is constant on each of the \(k\) triples: the three rows of a triple coincide, and rows from different triples are independent. Vertices of a triple therefore have equal rows in \(A\) and are non-adjacent, and a set \(R\) of representatives has \(A[R, R] = U_R\, S\, U_R^{\mathsf T}\) non-singular. So \(G\) is the tripling of \(G[R]\). \qed
+
+\begin{corollary}
+The largest number of vertices of a minimal forbidden induced subgraph for \(c_2(G) \le k\) is \(2k+2\) for odd \(k\) and \(3k\) for even \(k \ge 2\).
+\end{corollary}
+
+\emph{Proof.} Odd \(k\): the bound is {[}FD26, Theorem~4{]}, and \((k+1)K_2\) attains it by {[}FD26, Corollary~3{]} and {[}BPR22, Proposition 22{]}. For even \(k\), combine Theorems~1 and 2; a perfect matching on \(k\) vertices has non-singular adjacency matrix. \qed
+
+For \(k = 2\) the two numbers agree and the minimal forbidden graphs on 6 vertices are \(3K_2\) and \(K_{3,3}\) {[}BPR22, Theorem~26{]}. For \(k = 4\) the graphs on 4 vertices with non-singular adjacency matrix are \(2K_2\), \(P_4\), the paw and \(K_4\), so there are exactly four minimal forbidden graphs on 12 vertices: \(2K_{3,3}\), the triplings of \(P_4\) and of the paw, and \(K_{3,3,3,3}\).
+
+\newpage\hypertarget{computation}{%
+\section{Computation}\label{computation}}
+
+A graph whose adjacency matrix has rank 4 over \(\mathbb{F}_2\) corresponds to a spanning multiset of \(n\) vectors of \(\mathbb{F}_2^4\), unique up to the action of \(\operatorname{Sp}(4, 2)\), with adjacency given by the standard symplectic form. For \(n \le 15\) all such multisets were enumerated; by (b), a minimal forbidden graph among them is one that is 4-rigid while none of its vertex-deleted subgraphs is, and rigidity was decided by testing every diagonal, or by (b) from a vertex-deleted subgraph. The numbers of multisets giving a minimal forbidden graph for \(c_2 \le 4\) are 120, 7,560, 25,200, 15,960, 5,040 and 840 for \(n = 7, \dots, 12\) (1, 18, 48, 31, 11 and 4 graphs up to isomorphism), and zero for \(n \le 6\) and for \(n = 13, 14, 15\); the 840 at \(n = 12\) are the triplings of the 840 bases of \(\mathbb{F}_2^4\). Together with (d) this confirms Theorems~1 and 2 at \(k = 4\) for graphs on at most 15 vertices, and shows that the intermediate size 11 also occurs. An enumeration of all graphs on at most 7 vertices confirms Theorem~1 at \(k = 2\).
+
+\hypertarget{relation-to-known-results}{%
+\section{Relation to known results}\label{relation-to-known-results}}
+
+The invariant \(c_2\) is also known as the Boolean dimension of a graph {[}PST22{]}. Buchanan, Purcell and Rombach {[}BPR22{]} proved that the graphs with \(c_2 \le k\) are characterised by finitely many forbidden induced subgraphs, that for odd \(k\) these are the forbidden subgraphs for \(\operatorname{mr}(\mathbb{F}_2, G) \le k\), and found them for \(k = 2\). In {[}FD26{]} the bound \(2k+2\) was proved for \(\operatorname{mr}(\mathbb{F}_2, G) \le k\), hence for \(c_2\) at odd \(k\), and \(mK_{3,3}\) was shown to be a minimal forbidden graph on \(3k\) vertices for even \(k = 2m \ge 4\), leaving the exact value open. Counterexamples for even \(k \ge 6\), formed by disjoint copies of the wheel \(W_5\), had been posted earlier {[}PX26{]}, and the family \(mK_{3,3}\) follows quickly from the examples and component results of {[}BPR22{]}. Corollary~3 closes that question, and Theorem~2 shows that \(mK_{3,3}\) is one member of a family indexed by the non-singular graphs on \(k\) vertices.
+
+The witness theorem of {[}FD26{]} keeps the least rank of a completion on at most \(2k\) indices, using two disjoint independent sets. Lemma~3 keeps the uniqueness of the optimal diagonal and uses three disjoint bases. Disjoint bases are classical: three blocks of indices with non-singular cross blocks determine the diagonal of a completion of least rank uniquely {[}A44b{]}, {[}FM87, Theorem~3.4{]}, {[}AR56, Theorem~5.1{]}, and the rigidity of triplings in Theorem~2 is a case of this; Lemma~3 instead keeps an existing uniqueness on a small principal restriction. In the proof of Theorem~2 the supports of weight three are minimum cocircuits of a matroid with three disjoint bases, and their disjointness is also a case of {[}BNS14, Lemma~7{]}. To our knowledge Lemma~3, Theorem~1, and the minimality and converse parts of Theorem~2 are new.
+
+\newpage\hypertarget{formalization}{%
+\section{Formalization}\label{formalization}}
+
+Facts (a) to (d) and every numbered statement are formalized in Lean 4 {[}Lean4{]} with Mathlib {[}Mathlib{]}, as an extension of the Lean project of {[}FD26{]}, with no axioms beyond Lean's standard ones: \href{https://github.com/StableAttractor/research-companion/tree/even-subgraph-complementation-v1}{github.com/StableAttractor/research-companion} (tag \texttt{even-subgraph-complementation-v1}), file \texttt{lean/FreeDiagonal/EvenComplementation/Paper.lean}. Lemmas 2 and 3 are formalized over an arbitrary field, together with the base packing statement used in the proof of Lemma~3, and triplings are taken up to graph isomorphism. The formal proofs of Theorem~1 and of the rigidity part of Lemma~3 follow a different route, by three disjoint bases and the rectangle comparison of {[}FD26{]}.
+
+\begin{thebibliography}{Mathlib}
+\footnotesize\linespread{1}\selectfont\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\bibitem[A44b]{A44b} A. A. Albert, \emph{The minimum rank of a correlation matrix}. Proceedings of the National Academy of Sciences 30 (1944), 144--146. doi:10.1073/pnas.30.6.144.
+\bibitem[AR56]{AR56} T. W. Anderson, H. Rubin, \emph{Statistical inference in factor analysis}. In: Proceedings of the Third Berkeley Symposium on Mathematical Statistics and Probability, vol.~V, University of California Press, 1956, 111--150.
+\bibitem[BNS14]{BNS14} R. F. Bailey, M. Newman, B. Stevens, \emph{A note on packing spanning trees in graphs and bases in matroids}. Australasian Journal of Combinatorics 59(1) (2014), 24--38.
+\bibitem[BPR22]{BPR22} C. Buchanan, C. Purcell, P. Rombach, \emph{Subgraph complementation and minimum rank}. Electronic Journal of Combinatorics 29(1) (2022), P1.38. arXiv:2101.06180.
+\bibitem[E65]{E65} J. Edmonds, \emph{Lehman's switching game and a theorem of Tutte and Nash-Williams}. Journal of Research of the National Bureau of Standards, Section B 69B (1965), 73--77.
+\bibitem[FD26]{FD26} \emph{The Sharp \(2k+2\) Obstruction Bound for Minimum-Rank Completion with a Free Diagonal}, 27 November 2026. With its Lean formalization: \href{https://github.com/StableAttractor/research-companion/tree/6ea6f9c5e396a67cb100720ea44652ff521a2db8}{github.com/\allowbreak{}StableAttractor/\allowbreak{}\mbox{research-companion}} (commit \texttt{6ea6f9c}).
+\bibitem[FM87]{FM87} M. Fiedler, T. L. Markham, \emph{Rank-preserving diagonal completions of a matrix}. Linear Algebra and its Applications 85 (1987), 49--56. doi:10.1016/0024-3795(87)90207-2.
+\bibitem[L75]{L75} A. Lempel, \emph{Matrix factorization over \(GF(2)\) and trace-orthogonal bases of \(GF(2^n)\)}. SIAM Journal on Computing 4(2) (1975), 175--186. doi:10.1137/0204014.
+\bibitem[Lean4]{Lean4} L. de Moura, S. Ullrich, \emph{The Lean 4 theorem prover and programming language}. In: A. Platzer, G. Sutcliffe (eds.), Automated Deduction -- CADE 28, Lecture Notes in Computer Science 12699, Springer, 2021, 625--635. doi:10.1007/978-3-030-79876-5\_37.
+\bibitem[Mathlib]{Mathlib} The mathlib Community, \emph{The Lean mathematical library}. In: Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP 2020), ACM, 2020, 367--381. doi:10.1145/3372885.3373824. arXiv:1910.09336.
+\bibitem[PST22]{PST22} M. Pouzet, H. Si Kaddour, B. D. Thatte, \emph{On the Boolean dimension of a graph and other related parameters}. Discrete Mathematics \& Theoretical Computer Science 23(2) (2022), \#5. doi:10.46298/dmtcs.7437.
+\bibitem[PX26]{PX26} ProbXiv, \emph{Subgraph complementation and minimum rank}, problem page dated 17 August 2026, offline as of 27 November 2026. https://probxiv.com/problems/subgraph-complementation-and-minimum-rank
+\end{thebibliography}
+\end{document}

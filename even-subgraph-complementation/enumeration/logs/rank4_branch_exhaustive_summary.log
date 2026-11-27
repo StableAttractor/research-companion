@@ -1,0 +1,8 @@
+n=4 multisets=3876 spanning(rank A=4)=840 obstructions(c2=5)=0 minimal=0 tripled=0 minimal_not_tripled=0
+n=5 multisets=15504 spanning(rank A=4)=6888 obstructions(c2=5)=0 minimal=0 tripled=0 minimal_not_tripled=0
+n=6 multisets=54264 spanning(rank A=4)=33628 obstructions(c2=5)=0 minimal=0 tripled=0 minimal_not_tripled=0
+n=7 multisets=170544 spanning(rank A=4)=126568 obstructions(c2=5)=120 minimal=120 tripled=0 minimal_not_tripled=120
+n=8 multisets=490314 spanning(rank A=4)=404323 obstructions(c2=5)=9375 minimal=7560 tripled=0 minimal_not_tripled=7560
+n=9 multisets=1307504 spanning(rank A=4)=1150168 obstructions(c2=5)=108160 minimal=25200 tripled=0 minimal_not_tripled=25200
+n=10 multisets=3268760 spanning(rank A=4)=2995804 obstructions(c2=5)=605596 minimal=15960 tripled=0 minimal_not_tripled=15960
+n=11 multisets=7726160 spanning(rank A=4)=7272904 obstructions(c2=5)=2356816 minimal=5040 tripled=0 minimal_not_tripled=5040

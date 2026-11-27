@@ -1,6 +1,7 @@
 import FreeDiagonal
 
--- `lake env lean PrintAxioms.lean`: the axioms used by every theorem of FreeDiagonal/Results.lean.
+-- `lake env lean PrintAxioms.lean`: the axioms used by every theorem of FreeDiagonal/Results.lean
+-- and by the paper's statements in FreeDiagonal/EvenComplementation/Paper.lean.
 
 #print axioms FreeDiagonal.Results.note_fact_a
 #print axioms FreeDiagonal.Results.note_fact_b
@@ -61,3 +62,16 @@ import FreeDiagonal
 #print axioms FreeDiagonal.Results.paper_v4_theorem_6_variety_Q
 #print axioms FreeDiagonal.Results.paper_v4_example18_of_generators
 #print axioms FreeDiagonal.Results.paper_v4_example18_nonvacuous
+#print axioms FreeDiagonal.EvenComplementation.Paper.fact_a
+#print axioms FreeDiagonal.EvenComplementation.Paper.fact_b
+#print axioms FreeDiagonal.EvenComplementation.Paper.fact_c
+#print axioms FreeDiagonal.EvenComplementation.Paper.fact_d
+#print axioms FreeDiagonal.EvenComplementation.Paper.lemma1
+#print axioms FreeDiagonal.EvenComplementation.Paper.lemma2
+#print axioms FreeDiagonal.EvenComplementation.Paper.lemma2_of_factor
+#print axioms FreeDiagonal.EvenComplementation.Paper.lemma2_remark
+#print axioms FreeDiagonal.EvenComplementation.Paper.lemma3
+#print axioms FreeDiagonal.EvenComplementation.Paper.lemma3_exists
+#print axioms FreeDiagonal.EvenComplementation.Paper.theorem1
+#print axioms FreeDiagonal.EvenComplementation.Paper.theorem2
+#print axioms FreeDiagonal.EvenComplementation.Paper.corollary3
