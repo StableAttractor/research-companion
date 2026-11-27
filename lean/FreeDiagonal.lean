@@ -1,2 +1,3 @@
 import FreeDiagonal.Results
 import FreeDiagonal.EvenComplementation.Paper
+import FreeDiagonal.StatisticalFactorAnalysis.Paper

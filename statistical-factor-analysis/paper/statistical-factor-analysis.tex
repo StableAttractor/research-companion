@@ -1,0 +1,187 @@
+\documentclass[11pt,letterpaper,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[final]{microtype}
+\usepackage[top=1.2in,bottom=1.2in,left=1.35in,right=1.35in]{geometry}
+\usepackage{amssymb}
+\usepackage{array,calc,booktabs,enumitem,needspace,etoolbox,float}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,urlcolor=MidnightBlue,citecolor=MidnightBlue]{hyperref}
+\providecommand{\tightlist}{\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}}
+\setlist[itemize]{topsep=4pt,itemsep=5pt,leftmargin=1.6em}
+\setlist[enumerate]{topsep=4pt,itemsep=4pt,leftmargin=2em}
+\newtheoremstyle{spaced}{14pt}{14pt}{\itshape}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{spaced}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}{Lemma}
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}{1.3\linespacing\@plus.6\linespacing}{.4\linespacing}{\normalfont\bfseries}}
+\makeatother
+\makeatletter
+\linespread{1.08}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt plus 2pt minus 1pt}
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{12pt plus 3pt minus 2pt}%
+  \setlength\belowdisplayskip{12pt plus 3pt minus 2pt}%
+  \setlength\abovedisplayshortskip{10pt plus 3pt minus 2pt}%
+  \setlength\belowdisplayshortskip{10pt plus 3pt minus 2pt}}
+\setlength{\jot}{6pt}
+\makeatother
+\widowpenalty=10000 \clubpenalty=10000 \displaywidowpenalty=10000
+\predisplaypenalty=10000 \postdisplaypenalty=0
+\AtBeginEnvironment{theorem}{\interlinepenalty=10000 \keepwithproof}\AtBeginEnvironment{corollary}{\interlinepenalty=10000 \keepwithproof}\AtBeginEnvironment{lemma}{\interlinepenalty=10000 \keepwithproof}
+\AtBeginEnvironment{itemize}{\interlinepenalty=10000 }\AtBeginEnvironment{enumerate}{\interlinepenalty=10000 }\AtBeginEnvironment{thebibliography}{\interlinepenalty=10000 }
+\setlength{\emergencystretch}{2em}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}\renewcommand{\textfraction}{0.08}\renewcommand{\floatpagefraction}{0.8}
+\makeatletter\@secpenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0 \makeatother
+\raggedbottom
+\makeatletter\newcommand\keepwithproof{\@endparpenalty=10000 }\makeatother
+\title[The Sharp Quadratic Threshold for Finiteness in Statistical Factor Analysis]{The Sharp Quadratic Threshold for Finiteness in Statistical Factor Analysis\\[6pt] {\mdseries\small The Exact Test Size for Every Number of Factors, with the Extremal Covariance Matrices}}
+\date{27 November 2026}
+\subjclass[2020]{Primary 62H25, 15A83; Secondary 62R01, 15B48, 05B35}
+\keywords{Factor analysis, covariance matrices, positive semidefinite matrix completion, free diagonal, finiteness, principal submatrices, matroid union}
+\pagestyle{plain}
+\renewcommand{\abstractname}{Summary}
+\begin{document}
+\begin{abstract}
+A covariance matrix follows the factor analysis model with \(m\) factors if it is the sum of a positive diagonal matrix and a positive semidefinite matrix of rank at most \(m\). Drton and Xiao {[}DX10{]} proved for \(m \le 2\) that this can be decided from the principal submatrices of size \(2(m+1)\), and conjectured that \(2(m+1)\) is the right size for every \(m\). We determine the right size for every \(m\): a covariance matrix follows the \(m\)-factor model if and only if each of its principal submatrices on at most \(\lfloor (m+3)^2/4 \rfloor\) variables does, and no smaller number has this property. This equals \(2(m+1)\) for \(m \le 2\) and exceeds it for every \(m \ge 3\); the values for \(m = 3, 4, 5, 6\) are \(9, 12, 16, 20\). The same holds when the diagonal part is only required to be non-negative. For the Zariski closure of the model the size \(2(m+1)\) is correct for every \(m\) {[}FA26{]}, so the inequalities of the model change the answer. We also give the test size as a function of the least rank \(q\) of a symmetric, not necessarily positive semidefinite, matrix that agrees with the covariance matrix off the diagonal and has admissible diagonal entries, namely \(q(m+3-q)\) for \(2 \le q \le m\); for \(m \ge 3\) we classify the covariance matrices that attain the bound: up to scaling of the variables, they are block matrices with \(q\) groups of \(m+3-q\) variables over an indefinite \(q \times q\) core; and we show that the bound is attained by correlation matrices with all entries positive, arbitrarily close to any equicorrelation matrix.
+
+\end{abstract}
+\maketitle
+\begin{quote}\small
+\textsc{Disclosure.} The argument was produced by AI systems (ChatGPT, OpenAI; Claude, Anthropic). It has not yet been peer reviewed. Contact: stableattractor@gmail.com.
+
+\end{quote}
+\smallskip
+\hypertarget{setting}{%
+\section{Setting}\label{setting}}
+
+Let \(m \ge 0\) and \(E = \{1, \dots, n\}\). The \emph{\(m\)-factor model} \(F_{n,m}\) is the set of real symmetric \(n \times n\) matrices \(\Sigma = D + \Lambda\Lambda^{\mathsf T}\) with \(D\) diagonal with positive diagonal entries and \(\Lambda\) a real \(n \times m\) matrix {[}DX10{]}; its members are positive definite. In the \emph{weak model} \(\overline{F}_{n,m}\) the diagonal entries of \(D\) are only non-negative. For \(T \subseteq E\) write \(\Sigma_T\) for the principal submatrix on \(T\). Principal submatrices of members are members. The \emph{test size} \(b_m\) is the least \(b\) such that, for every \(n\), a symmetric \(n \times n\) matrix \(\Sigma\) lies in \(F_{n,m}\) if and only if \(\Sigma_T \in F_{\lvert T\rvert, m}\) for every \(T\) with \(\lvert T\rvert \le b\); define \(\overline{b}_m\) likewise for the weak model.
+
+A \emph{fit} of \(\Sigma\) is a positive semidefinite matrix \(G\) of rank at most \(m\) with \(G_{ij} = \Sigma_{ij}\) for \(i \ne j\) and \(G_{ii} < \Sigma_{ii}\) for all \(i\); so \(\Sigma \in F_{n,m}\) if and only if \(\Sigma\) has a fit. A \emph{reference} of \(\Sigma\) is a real symmetric matrix \(G\), not necessarily positive semidefinite, with \(G_{ij} = \Sigma_{ij}\) for \(i \ne j\) and \(0 \le G_{ii} < \Sigma_{ii}\). For the weak model replace \(<\) by \(\le\) in both definitions; the proofs of Lemmas~1 and 2 and of Theorems~1, 2 and 4 then apply unchanged. A fit is a reference of rank at most \(m\).
+
+\begin{lemma}[references]
+If for every \(T \subseteq E\) with \(\lvert T\rvert \le 2m+2\) the matrix \(\Sigma_T\) has a reference of rank at most \(m\), then \(\Sigma\) has a reference of rank at most \(m\).
+\end{lemma}
+
+This is the bound \(2k+2\) for minimum-rank completion with a free diagonal, in its form for diagonal entries restricted to arbitrary non-empty sets {[}FD26, Section~2{]}.
+
+A reference \(G\) of rank \(q\) can be written \(G = U S U^{\mathsf T}\) with \(U\) an \(n \times q\) matrix of rank \(q\) and \(S\) symmetric and invertible. Write \(u_i\) for row \(i\) of \(U\), and \(S(v, w) = v S w^{\mathsf T}\) for row vectors, so \(G_{ij} = S(u_i, u_j)\); write \(\rho(X)\) for the rank of the rows \(u_i\), \(i \in X\).
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\begin{theorem}[exact test size]
+For every \(m \ge 0\), \(b_m = \overline{b}_m = \lfloor (m+3)^2/4 \rfloor\).
+\end{theorem}
+
+\begin{theorem}[test size by reference rank]
+Let \(\Sigma\) be a real symmetric matrix that has a reference, and let \(q\) be the least rank of a reference of \(\Sigma\). If \(q > m\) then \(\Sigma_T \notin F_{\lvert T\rvert,m}\) for some \(T\) with \(\lvert T\rvert \le 2m+2\). If \(q \le 1\) and \(m \ge q\), then \(\Sigma \in F_{n,m}\). If \(2 \le q \le m\), there is a set \(T\) of at most \(q(m+3-q)\) variables such that \(\Sigma \in F_{n,m}\) if and only if \(\Sigma_T \in F_{\lvert T\rvert,m}\). For every \(2 \le q \le m\) the number \(q(m+3-q)\) cannot be lowered: some positive definite \(\Sigma\) on \(q(m+3-q)\) variables with least reference rank \(q\) is not in the model, while all its proper principal submatrices are.
+\end{theorem}
+
+\begin{theorem}[extremal matrices]
+Let \(m \ge 3\) and let \(\Sigma\) be a positive definite matrix on \(\lfloor (m+3)^2/4 \rfloor\) variables that is not in the \(m\)-factor model, all of whose proper principal submatrices are in the model. Then, after multiplying each variable by a non-zero real number, \(\Sigma\) is one of the replicated matrices of Lemma~3 below that satisfy its condition (1), with \(q + t = m+3\) and \(qt = \lfloor (m+3)^2/4 \rfloor\): the variables fall into \(q\) groups of \(t\), and the off-diagonal entry \(\Sigma_{il}\) depends only on the groups of \(i\) and \(l\). Conversely every positive definite replicated matrix with these \(q\) and \(t\) that satisfies (1) is of this kind.
+\end{theorem}
+
+\begin{theorem}[positive correlations]
+Let \(m \ge 1\), \(N = \lfloor (m+3)^2/4 \rfloor\) and \(0 \le \varrho \le 1\). Every neighbourhood of the \(N \times N\) matrix with diagonal \(1\) and all off-diagonal entries \(\varrho\) contains a rational correlation matrix with all entries positive that is not in \(\overline{F}_{N,m}\), all of whose proper principal submatrices are in \(F_{\cdot,m}\).
+\end{theorem}
+
+So the size in Theorem~1 is needed even for correlation matrices that are entrywise positive and arbitrarily close to the identity.
+
+\newpage\hypertarget{positivity-from-disjoint-bases}{%
+\section{Positivity from disjoint bases}\label{positivity-from-disjoint-bases}}
+
+\begin{lemma}[positivity]
+Let \(\Phi\) be a symmetric bilinear form of rank \(r\) on a real vector space \(V\), and let \(W_1, \dots, W_t\), \(t \ge 2\), be linear maps from \(V\) to a Euclidean space of dimension \(m'\) such that \(\langle W_a v, W_b w\rangle = \Phi(v, w)\) for all \(v, w\) and all \(a \ne b\). If \(t \ge m' - r + 3\), then \(\Phi\) is positive semidefinite.
+\end{lemma}
+
+\emph{Proof.} Suppose \(\Phi(v, v) = d < 0\) and put \(w_a = W_a v\). The Gram matrix of \(w_1, \dots, w_t\) is \(dJ + \operatorname{diag}(\delta_a)\) with \(J\) the all-ones matrix and \(\delta_a = \lVert w_a\rVert^2 - d > 0\). A null vector \(\alpha\) satisfies \(\delta_a \alpha_a = -d \sum_b \alpha_b\) for every \(a\), so it is determined by the number \(\sum_b \alpha_b\), and if it is non-zero then all its coordinates are non-zero. Hence the \(w_a\) span a space \(R\) of dimension \(t\) or \(t-1\), and in the second case every \(t-1\) of them are independent. Let \(Z = \{z : \Phi(v, z) = 0\}\); then \(\Phi|_Z\) has rank \(r - 1\), and for \(z \in Z\) the vector \(W_a z\) is orthogonal to every \(w_b\) with \(b \ne a\). If \(\dim R = t-1\), the vectors \(w_b\), \(b \ne a\), span \(R\), so \(W_a(Z) \subseteq R^{\perp}\), of dimension \(m' - t + 1\). If \(\dim R = t\), the component of \(W_a z\) in \(R\) lies on the line orthogonal to all \(w_b\), \(b \ne a\), and its other component lies in \(R^{\perp}\), of dimension \(m' - t\). In both cases, for \(a \ne b\) the form \(\Phi|_Z = \langle W_a \cdot, W_b \cdot\rangle\) has rank at most \(m' - t + 1\). So \(r - 1 \le m' - t + 1\), contrary to the hypothesis. \qed
+
+\begingroup\interlinepenalty=10000 \emph{Proof of Theorem~2, except its last sentence.} If \(q > m\), Lemma~1 gives \(T\) with \(\lvert T\rvert \le 2m+2\) such that \(\Sigma_T\) has no reference of rank at most \(m\), hence no fit. A reference of rank at most \(1\) has non-negative diagonal, so it is positive semidefinite and is a fit. Let \(2 \le q \le m\), let \(G = U S U^{\mathsf T}\) be a reference of rank \(q\), and put \(t = m - q + 3 \ge 3\). By the matroid union theorem {[}Ox11{]}, the largest total size of \(t\) pairwise disjoint independent sets of rows of \(U\) is \(\min_X (\lvert E \setminus X\rvert + t\rho(X)) \le tq\). Fix a minimiser \(X\), let \(Y = E \setminus X\), and let \(V\) be the span of the rows in \(X\). Minimality of \(X\) and the same theorem on the ground set \(X\) give \(t\) pairwise disjoint bases \(B_1, \dots, B_t \subseteq X\) of \(V\). Put
+\[T = Y \cup B_1 \cup \dots \cup B_t, \qquad \lvert T\rvert = \lvert Y\rvert + t \dim V \le tq.\]\par\endgroup
+
+\begingroup\interlinepenalty=10000 Suppose \(\Sigma_T\) has a fit, with Gram vectors \(h_i \in \mathbb{R}^m\), \(i \in T\). For \(v = \sum_{b \in B_a} c_b u_b \in V\) put \(W_a v = \sum_{b \in B_a} c_b h_b\). Only off-diagonal entries of \(\Sigma\) pair two different bases, or a basis with \(Y\), so \(\langle W_a v, W_b w\rangle = S(v, w)\) for \(a \ne b\) and \(\langle W_a v, h_y\rangle = S(v, u_y)\) for \(y \in Y\). Let \(H_0\) be the span of the \(h_y\), \(y \in Y\), of dimension \(h\). The second identity shows that the orthogonal projection \(p(v)\) of \(W_a v\) to \(H_0\) does not depend on \(a\), so the maps \(W_a - p\) into \(H_0^{\perp}\), of dimension \(m - h\), have the common cross form
+\[\Phi(v, w) = S(v, w) - \langle p(v), p(w)\rangle .\]\par\endgroup
+
+Let \(G'\) be the symmetric matrix that equals \(G\) on \(X \times X\), the Gram matrix of the \(h_y\) on \(Y \times Y\), and \(\Sigma\) on \(X \times Y\). It has the off-diagonal entries of \(\Sigma\) and admissible diagonal entries, so it is a reference. It is the sum of the Gram matrix of the vectors \(p(u_x)\), \(x \in X\), and \(h_y\), \(y \in Y\), all in \(H_0\), and of the matrix \((\Phi(u_x, u_{x'}))\) on \(X \times X\). Hence \(\operatorname{rank} G' \le h + \operatorname{rank} \Phi\), and \(q \le h + \operatorname{rank} \Phi\) because \(q\) is least. So \(t = m - q + 3 \ge (m - h) - \operatorname{rank} \Phi + 3\), and Lemma~2 shows that \(\Phi\) is positive semidefinite. Its rank is at most \(m - h\), being the rank of a cross form of maps into \(H_0^{\perp}\). Therefore \(G'\) is positive semidefinite of rank at most \(m\): a fit of \(\Sigma\). \qed
+
+The proof uses of the sets \([0, \Sigma_{ii})\) only that they are subsets of \([0, \infty)\); the first three statements of Theorem~2 and the upper bound in Theorem~1 hold for positive semidefinite completions of rank at most \(m\) with each diagonal entry confined to such a set. The last statement of Theorem~2 does not carry over: if every set is \(\{0\}\), a matrix has such a completion only when it is diagonal, so minimal obstructions have two variables.
+
+\hypertarget{replicated-matrices}{%
+\section{Replicated matrices}\label{replicated-matrices}}
+
+\begin{lemma}[replicated matrices]
+Let \(q, t \ge 2\) and \(m = q + t - 3\). Let \(S_0\) be a real symmetric invertible \(q \times q\) matrix that is not positive semidefinite and whose principal submatrices of size \(q-1\) are positive definite. Write \(s_j\) for its diagonal entries and \(-g_j\) for the Schur complement of \(S_0\) at position \(j\); then \(s_j > 0\) and \(g_j > 0\). Let the \(qt\) variables fall into \(q\) groups of \(t\), and let \(\Sigma\) be a symmetric matrix with \(\Sigma_{il} = (S_0)_{jk}\) whenever \(i \ne l\) lie in groups \(j\) and \(k\), and with diagonal entries \(c_i\). No positive semidefinite matrix of rank at most \(m\) has the off-diagonal entries of \(\Sigma\), and the least rank of a reference of \(\Sigma\) is \(q\) if \(c_i > s_j\) for all \(i\). If, for every group \(j\) and every variable \(i_0\) in it,
+\end{lemma}
+\[c_i > s_j \ \text{ for } i \text{ in group } j, \qquad g_j \sum_{i \ne i_0 \text{ in group } j} \frac{1}{c_i - s_j} < 1, \tag{1}\postdisplaypenalty=10000 \]
+then every proper principal submatrix of \(\Sigma\) is in the \(m\)-factor model. If \(t \ge 3\) and every proper principal submatrix is in the model, then (1) holds.
+
+\emph{Proof.} The Schur complement at \(j\) is \(\det S_0\) divided by a positive principal minor, and \(\det S_0 < 0\) because \(S_0\) has \(q-1\) positive eigenvalues by interlacing and is not positive semidefinite. Let \(v_1, \dots, v_q\) be the standard basis of \(\mathbb{R}^q\) with the form \(S_0\), and let \(G\) be the matrix \(U S_0 U^{\mathsf T}\) whose rows \(u_i\) are \(v_j\) for \(i\) in group \(j\). It has the off-diagonal entries of \(\Sigma\), diagonal entries \(s_j\) and rank \(q\); two disjoint sets of representatives of the groups carry the invertible block \(S_0\), so no matrix with these off-diagonal entries has smaller rank.
+
+\begingroup\interlinepenalty=10000 Let \(H\) be positive semidefinite with the off-diagonal entries of \(\Sigma\), on \(E\) or on \(E\) without one variable, and let \(E'\) be its index set. Let \(X = \{i \in E' : H_{ii} = G_{ii}\}\) and let \(V\) be the span of the \(u_i\), \(i \in X\), of dimension \(r\). On \(V\) the form \(S_0\) is positive semidefinite, because \(G\) and \(H\) agree on \(X \times X\). If \(v = \sum_{i \in X} \alpha_i u_i\) had \(S_0(v, v) = 0\), the vector \(\alpha\), extended by zero, would lie in the kernel of \(H\); as \(H\) and \(G\) agree off the diagonal and on \(X \times X\), this gives \(S_0(u_k, v) = 0\) for every \(k \in E'\), hence \(v = 0\), since these rows span \(\mathbb{R}^q\). So \(S_0\) is positive definite on \(V\), and \(r \le q-1\). Choose \(B \subseteq X\) indexing a basis of \(V\); then \(G[B, B] = H[B, B]\) is invertible, the Schur complements of \(G[E', E']\) and of \(H\) with respect to \(B\) have ranks \(q - r\) and at most \(\operatorname{rank} H - r\), and they differ by a diagonal matrix with exactly \(\lvert E'\rvert - \lvert X\rvert\) non-zero entries. Hence
+\[\lvert E'\rvert - \lvert X\rvert \le \operatorname{rank} H + q - 2r, \qquad \lvert X\rvert \le tr, \tag{2}\postdisplaypenalty=10000 \]
+the second because \(V\) contains at most \(r\) of the directions \(v_j\).\par\endgroup
+
+If \(E' = E\) and \(\operatorname{rank} H \le m\), then (2) gives \((t-2) r \ge (t-2)(q-1) + 1\), which contradicts \(r \le q-1\). This proves the first assertion.
+
+Now delete a variable \(i_0\) of group \(j\). Realise the other groups by vectors \(w_k\), \(k \ne j\), in \(\mathbb{R}^{q-1}\) whose Gram matrix is the positive definite principal submatrix of \(S_0\); let \(p\) be the vector in their span with \(\langle p, w_k\rangle = (S_0)_{jk}\), of squared length \(a_j = s_j + g_j\). Give variable \(i\) of group \(j\) the vector \(p + e_i\) with the \(e_i\) orthogonal to \(\mathbb{R}^{q-1}\). The off-diagonal entries are those of \(\Sigma\) exactly when the Gram matrix of the \(t-1\) vectors \(e_i\) is \(\operatorname{diag}(\lambda_i - s_j) - g_j J\), where \(\lambda_i\) is the diagonal entry of the fit at \(i\); the rank of the fit is at most \(m\) when this matrix has rank at most \(t-2\). Condition (1) says that \(R = \operatorname{diag}(c_i - s_j) - g_j J\) is positive definite. Subtracting its least eigenvalue \(\mu > 0\) times the identity gives a positive semidefinite matrix of rank at most \(t-2\), with \(\lambda_i = c_i - \mu < c_i\): a fit. Smaller principal submatrices are principal submatrices of these.
+
+Conversely let \(t \ge 3\) and let \(H\) be a fit of \(\Sigma\) without \(i_0\). Now (2) with \(\lvert E'\rvert = qt - 1\) and \(\operatorname{rank} H \le m\) gives \(\lvert X\rvert \ge (t-2)(q-1) + 2r\), so \(r = q-1\) and \(\lvert X\rvert = t(q-1)\): \(X\) consists of \(q-1\) complete groups, which are the groups other than \(j\). So \(H\) realises them by vectors with Gram matrix as above, the remaining variables have the form \(p + e_i\), and \(\operatorname{diag}(H_{ii} - s_j) - g_j J\) is positive semidefinite with \(H_{ii} < c_i\). Then \(R\) is positive definite, which is (1). \qed
+
+\emph{Proof of Theorem~1 and of the last sentence of Theorem~2.} For \(q \ge 2\) let \(S_0 = (1+\gamma)I - \gamma J\) with \(1/(q-1) < \gamma < 1/(q-2)\), or \(\gamma > 1\) if \(q = 2\). Its principal submatrices of size \(q-1\) are positive definite and the all-ones vector is a negative direction, so Lemma~3 applies; with all \(c_i\) equal and large, (1) holds and \(\Sigma\) is positive definite. This gives a matrix on \(qt\) variables, \(t = m+3-q\), that is not in the model, not even the weak one, while all its proper principal submatrices are, and whose least reference rank is \(q\). That is the last sentence of Theorem~2. Taking \(q\) and \(t\) as equal as possible gives \(b_m, \overline{b}_m \ge \lfloor (m+3)^2/4 \rfloor\) for \(m \ge 1\); for \(m = 0\) a positive definite \(2 \times 2\) matrix that is not diagonal does.
+
+For the upper bound let every \(\Sigma_T\) with \(\lvert T\rvert \le \lfloor (m+3)^2/4 \rfloor\) be in the model. Since \(2m+2 \le \lfloor (m+3)^2/4 \rfloor\), Lemma~1 gives a reference of rank at most \(m\), and Theorem~2 applies with \(q \le m\) and a set of at most \(q(m+3-q) \le \lfloor (m+3)^2/4 \rfloor\) variables. \qed
+
+\emph{Proof of Theorem~4.} Take \(q\) and \(t\) as equal as possible with \(q + t = m+3\), and \(B = (1+\gamma)I - \gamma J\) as above with \(\gamma\) rational. Let \(d\) be a vector of signs, not all equal, \(D = \operatorname{diag}(d)\), and \(w\) a positive rational vector with \(w^{\mathsf T} d = 0\). For rational \(L \ge 0\) put \(S_L = D B D + L w w^{\mathsf T}\). Its principal submatrices of size \(q-1\) are positive definite, \(d^{\mathsf T} S_L d = d^{\mathsf T} D B D d < 0\), so it is invertible with one negative eigenvalue; and its entries are positive for large \(L\). So Lemma~3 applies to \(S_L\). Its diagonal entries are \(s_j(0) + L w_j^2\), and \(g_j(L) \le g_j(0)\), since \(-g_j\) is the least value of \(x^{\mathsf T} S_L x\) over \(x\) with \(x_j = 1\). Choose rational \(\nu_0\) larger than every \((s_j(0) + (t-1) g_j(0))/w_j^2\) and such that the replicated matrix of \(S_L\) for \(L = 0\) with diagonal entries \(\nu_0 w_j^2\) is positive definite. For \(\nu_L \ge \nu_0 + L\) the replicated matrix \(\Sigma_L\) of \(S_L\) with diagonal entries \(\nu_L w_j^2\) satisfies (1), and it is positive definite, being \(\Sigma_0\) plus a positive semidefinite matrix of rank one plus a non-negative diagonal matrix. Dividing variable \(i\) of group \(j\) by \(w_j \sqrt{\nu_L}\) gives a correlation matrix with off-diagonal entries \((L + (D B D)_{jk}/(w_j w_k))/\nu_L\), where \(j, k\) are the groups of the two variables. Choosing rational \(\nu_L \ge \nu_0 + L\) with \(L/\nu_L \to \varrho\) as \(L \to \infty\), for instance \(\nu_L = \nu_0 + L + L^2\) when \(\varrho = 0\), these entries are rational, positive for large \(L\), and tend to \(\varrho\). \qed
+
+\hypertarget{the-extremal-matrices}{%
+\section{The extremal matrices}\label{the-extremal-matrices}}
+
+\begingroup\interlinepenalty=10000 \emph{Proof of Theorem~3.} The converse is Lemma~3. Let \(\Sigma\) be as in the theorem and \(n = \lfloor (m+3)^2/4 \rfloor\). Since \(n > 2m+2\), Lemma~1 gives a reference of rank at most \(m\); let \(G = U S U^{\mathsf T}\) be one of least rank \(q\), and \(t = m+3-q\). By Theorem~2, \(q \ge 2\). The set \(T\) in the proof of Theorem~2 must be all of \(E\), since otherwise \(\Sigma_T\) and hence \(\Sigma\) would be in the model. So \(n \le tq\), hence \(n = tq\) and \(q\) maximises \(q(m+3-q)\); the minimum in the matroid union theorem is \(n\), that is,
+\[\lvert X\rvert \le t\rho(X) \ \text{ for every } X \subseteq E, \tag{3}\postdisplaypenalty=10000 \]
+and \(E\) is the union of \(t\) disjoint bases. Also \(S\) is not positive semidefinite, since otherwise \(G\) would be a fit.\par\endgroup
+
+Fix \(i\) and a fit \(H\) of \(\Sigma\) without \(i\). The second paragraph of the proof of Lemma~3 used of \(G\) only that the rows indexed by \(E'\) span \(\mathbb{R}^q\), and (3) in place of the count of directions. Here two of the bases avoid \(i\), so with \(X_i = \{l \ne i : H_{ll} = G_{ll}\}\), of span \(V_i\) and rank \(r\), the form \(S\) is positive definite on \(V_i\), \(r \le q-1\), and (2) holds: \(\lvert X_i\rvert \ge (t-2)(q-1) + 2r\) and \(\lvert X_i\rvert \le tr\). As \(t \ge 3\), \(r = q-1\) and \(\lvert X_i\rvert = t(q-1)\). By (3) the hyperplane \(V_i\) contains the rows of no further variable, so exactly \(t\) variables, among them \(i\), have rows outside \(V_i\).
+
+Let \(V\) and \(V'\) be two different hyperplanes obtained in this way. By (3) at most \(t(q-2)\) variables have rows in \(V \cap V'\), while each hyperplane contains \(t(q-1)\) rows out of \(tq\); so the two sets of \(t\) variables outside \(V\) and outside \(V'\) are disjoint. Hence these sets partition \(E\) into \(q\) groups of \(t\), one for each of \(q\) hyperplanes \(V_1, \dots, V_q\). A basis of \(\mathbb{R}^q\) is contained in no hyperplane, so each of the \(t\) disjoint bases contains exactly one variable of each group. Fix one of them, with rows \(v_1, \dots, v_q\), \(v_j\) in group \(j\). Then \(V_j\) is spanned by the \(v_k\) with \(k \ne j\), and a row of group \(j\) lies in \(V_k\) for every \(k \ne j\), hence is a non-zero multiple of \(v_j\). Dividing each variable by this multiple, all rows of group \(j\) equal \(v_j\), and \(\Sigma_{il} = S(v_j, v_k)\) for \(i \ne l\) in groups \(j, k\). The matrix \(S_0 = (S(v_j, v_k))\) is invertible and not positive semidefinite, and its principal submatrices of size \(q-1\) are positive definite because \(S\) is positive definite on each \(V_j\). So \(\Sigma\) is a replicated matrix as in Lemma~3, and (1) holds by the last assertion of that lemma. \qed
+
+For \(m = 3\) the extremal matrices have three groups of three variables. For even \(m\) both \((q, t) = (\tfrac{m+2}{2}, \tfrac{m+4}{2})\) and \((\tfrac{m+4}{2}, \tfrac{m+2}{2})\) occur.
+
+\hypertarget{relation-to-known-results}{%
+\section{Relation to known results}\label{relation-to-known-results}}
+
+Drton and Xiao {[}DX10{]} proved for \(m \le 2\) that a positive definite matrix is in the model if all its principal submatrices of size \(2(m+1)\) are, showed \(b_m \ge 2(m+1)\) in general by a perfect matching, and conjectured equality for every \(m\). Theorem~1 confirms the value for \(m \le 2\) and shows that it is too small by \(\lfloor (m-1)^2/4 \rfloor\) for every \(m \ge 3\). Draisma {[}Dr10{]} proved that some finite size suffices for the Zariski closure of the model; the size \(2(m+1)\) is correct there for every \(m\) {[}FA26{]}; that paper works over an algebraically closed field, which suffices because the real Zariski closure of \(F_{n,m}\) consists of the real points of its complex Zariski closure. For matrices none of whose \(m \times m\) minors vanishes, \(2(m+1)\) suffices for the model itself {[}DSS07, Proposition~30{]}. Theorems~2 and 3 locate the difference: since \(q(m+3-q) > 2m+2\) exactly when \(3 \le q \le m\), sizes beyond \(2(m+1)\) are needed only when the least reference rank is at least \(3\), and, for \(m \ge 3\), the largest size only for the replicated matrices of Lemma~3.
+
+The reference step, Lemma~1, uses two disjoint independent sets of rows to preserve rank {[}FD26{]}. Theorem~2 uses \(m - q + 3\) disjoint bases to force positivity through Lemma~2.
+
+The ingredients of the lower bound are not new. Guttman {[}Gu54, Section~11{]} showed that a correlation matrix whose off-diagonal part is that of a negative semidefinite matrix of rank one (two distinct latent roots, the larger of multiplicity \(n-1\)), for instance with all off-diagonal entries equal to \(-\gamma\), the pattern of the core \((1+\gamma)I - \gamma J\) used above, can need \(n-1\) factors; Lemma~3 replicates such a core so that, in addition, every proper principal submatrix fits. Guttman {[}Gu58{]} also gave matrices whose rank stays at least \(n-1\) whatever the diagonal, contrary to the bound obtained by counting equations and unknowns. Replicated matrices are block covariance matrices in the sense of Bunea, Giraud, Luo, Royer and Verzelen {[}BGLRV20{]}, whose compressed matrix need not be positive semidefinite; see also Archakov and Hansen {[}AH24{]}. Tong and Hansen {[}TH23{]} characterise the block correlation matrices that admit a factor representation with a common loading vector in each group, and give a positive definite correlation matrix with all entries positive, on nine variables in three groups of three, whose compressed matrix is indefinite {[}TH23, equation (5) of the arXiv version{]}. By Lemma~3 with \(q = t = 3\) it is not in \(F_{9,3}\); it violates condition (1) in its third group, so some proper principal submatrix is not in the model either. Multiplying its off-diagonal entries by \(49/50\) makes (1) hold in every group, and gives an extremal matrix of Theorem~3 for \(m = 3\). Replication of rows to control a diagonal completion also appears in the complexity reductions of Tunçel, Vavasis and Xu {[}TVX25{]}. The classical minimum-rank problem behind the model, which fixes \(n\) and asks for the least rank, goes back to Frisch, Ledermann, Reiersøl and Shapiro; see {[}BdL87{]} and {[}NGTB15{]}. Apart from {[}DX10{]} for \(m \le 2\) and the results on the Zariski closure {[}Dr10, FA26{]}, we know of no earlier bound on the size of minimal obstructions for the statistical model; to our knowledge Lemma~2 and Theorems~1 to 4 are new.
+
+\hypertarget{formalization}{%
+\section{Formalization}\label{formalization}}
+
+All numbered statements are formalized in Lean 4 {[}Lean4{]} with Mathlib {[}Mathlib{]}, as stated, in the repository \href{https://github.com/StableAttractor/research-companion/tree/statistical-factor-analysis-v1}{github.com/\allowbreak{}StableAttractor/\allowbreak{}\mbox{research-companion}} (tag \texttt{statistical-factor-analysis-v1}), file \texttt{lean/\allowbreak{}FreeDiagonal/\allowbreak{}StatisticalFactorAnalysis/\allowbreak{}Paper.lean}: Lemmas~1 to 3, Theorems~1 to 4, the remark after the proof of Theorem~2 in the form above, and the inequality of Section~6. The formal proofs of Theorems~3 and 4 and of parts of Lemmas~2 and 3 follow shorter routes than the printed ones.
+
+\begin{thebibliography}{Mathlib}
+\footnotesize\linespread{1}\selectfont\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\bibitem[AH24]{AH24} I. Archakov, P. R. Hansen, \emph{A canonical representation of block matrices with applications to covariance and correlation matrices}. Review of Economics and Statistics 106 (2024), 1099--1113. doi:10.1162/rest\_a\_01258. arXiv:2012.02698.
+\bibitem[BdL87]{BdL87} P. A. Bekker, J. de Leeuw, \emph{The rank of reduced dispersion matrices}. Psychometrika 52 (1987), 125--135. doi:10.1007/BF02293960.
+\bibitem[BGLRV20]{BGLRV20} F. Bunea, C. Giraud, X. Luo, M. Royer, N. Verzelen, \emph{Model assisted variable clustering: minimax-optimal recovery and algorithms}. Annals of Statistics 48 (2020), 111--137. doi:10.1214/18-AOS1794.
+\bibitem[Dr10]{Dr10} J. Draisma, \emph{Finiteness for the k-factor model and chirality varieties}. Advances in Mathematics 223 (2010), 243--256. arXiv:0811.3503.
+\bibitem[DSS07]{DSS07} M. Drton, B. Sturmfels, S. Sullivant, \emph{Algebraic factor analysis: tetrads, pentads and beyond}. Probability Theory and Related Fields 138 (2007), 463--493. arXiv:math/0509390.
+\bibitem[DX10]{DX10} M. Drton, H. Xiao, \emph{Finiteness of small factor analysis models}. Annals of the Institute of Statistical Mathematics 62 (2010), 775--783. arXiv:0908.1736.
+\bibitem[FA26]{FA26} \emph{The sharp 2k+2 threshold for set-theoretic finiteness in algebraic factor analysis}, version 6, 27 November 2026. Tag \texttt{factor-analysis-threshold-v1} of \url{https://github.com/StableAttractor/research-companion}.
+\bibitem[FD26]{FD26} \emph{The sharp 2k+2 obstruction bound for minimum-rank completion with a free diagonal}, short version, version 2, 27 November 2026. Tag \texttt{minimum-rank-free-diagonal-v2} of \url{https://github.com/StableAttractor/research-companion}.
+\bibitem[Gu54]{Gu54} L. Guttman, \emph{Some necessary conditions for common-factor analysis}. Psychometrika 19 (1954), 149--161. doi:10.1007/BF02289162.
+\bibitem[Gu58]{Gu58} L. Guttman, \emph{To what extent can communalities reduce rank?} Psychometrika 23 (1958), 297--308. doi:10.1007/BF02289780.
+\bibitem[Lean4]{Lean4} L. de Moura, S. Ullrich, \emph{The Lean 4 theorem prover and programming language}. Automated Deduction -- CADE 28, Springer, 2021, 625--635. doi:10.1007/978-3-030-79876-5\_37.
+\bibitem[Mathlib]{Mathlib} The mathlib Community, \emph{The Lean mathematical library}. Certified Programs and Proofs (CPP 2020), ACM, 2020, 367--381. doi:10.1145/3372885.3373824.
+\bibitem[NGTB15]{NGTB15} L. Ning, T. T. Georgiou, A. Tannenbaum, S. P. Boyd, \emph{Linear models based on noisy data and the Frisch scheme}. SIAM Review 57 (2015), 167--197. doi:10.1137/130921179.
+\bibitem[Ox11]{Ox11} J. Oxley, \emph{Matroid Theory}, 2nd edition. Oxford University Press, 2011.
+\bibitem[TH23]{TH23} C. Tong, P. R. Hansen, \emph{Characterizing correlation matrices that admit a clustered factor representation}. Economics Letters 233 (2023), 111433. doi:10.1016/j.econlet.2023.111433. arXiv:2308.05895.
+\bibitem[TVX25]{TVX25} L. Tunçel, S. A. Vavasis, J. Xu, \emph{Computational complexity of decomposing a symmetric matrix as a sum of positive semidefinite and diagonal matrices}. Foundations of Computational Mathematics 25 (2025), 223--269. doi:10.1007/s10208-023-09637-4. arXiv:2209.05678.
+\end{thebibliography}
+\end{document}

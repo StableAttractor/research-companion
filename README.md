@@ -12,6 +12,7 @@ its README.
 | The Sharp 2k+2 Obstruction Bound for Minimum-Rank Completion with a Free Diagonal ([PDF](minimum-rank-free-diagonal/paper/minimum-rank-free-diagonal.pdf)) | [`minimum-rank-free-diagonal/`](minimum-rank-free-diagonal/) |
 | The Sharp 2k+2 Threshold for Set-Theoretic Finiteness in Algebraic Factor Analysis ([PDF](factor-analysis-threshold/paper/factor-analysis-threshold.pdf)) | [`factor-analysis-threshold/`](factor-analysis-threshold/) |
 | The Sharp 3k Obstruction Bound for Subgraph Complementation at Even k ([PDF](even-subgraph-complementation/paper/even-subgraph-complementation.pdf)) | [`even-subgraph-complementation/`](even-subgraph-complementation/) |
+| The Sharp Quadratic Threshold for Finiteness in Statistical Factor Analysis ([PDF](statistical-factor-analysis/paper/statistical-factor-analysis.pdf)) | [`statistical-factor-analysis/`](statistical-factor-analysis/) |
 
 Every result is proved from Lean's standard axioms only. Any hypothesis a paper's formalization
 takes is stated in that paper's folder; at present there is one, used by Theorem 6 of the
