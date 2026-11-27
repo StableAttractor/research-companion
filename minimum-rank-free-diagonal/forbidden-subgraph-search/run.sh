@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reproduces the exhaustive search reported in the paper (Section 7; Section 4 of the short version).
+# Reproduces the exhaustive search reported in Section 4 of the paper.
 # Requirements: gcc, python3 with networkx. Running time: a few minutes.
 set -eu
 cd "$(dirname "$0")"

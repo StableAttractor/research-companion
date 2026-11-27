@@ -9,7 +9,7 @@ its README.
 
 | Paper | Folder |
 |---|---|
-| The Sharp 2k+2 Obstruction Bound for Minimum-Rank Completion with a Free Diagonal ([PDF](minimum-rank-free-diagonal/paper/minimum-rank-free-diagonal.pdf), [short version](minimum-rank-free-diagonal/paper/minimum-rank-free-diagonal-short.pdf)) | [`minimum-rank-free-diagonal/`](minimum-rank-free-diagonal/) |
+| The Sharp 2k+2 Obstruction Bound for Minimum-Rank Completion with a Free Diagonal ([PDF](minimum-rank-free-diagonal/paper/minimum-rank-free-diagonal.pdf)) | [`minimum-rank-free-diagonal/`](minimum-rank-free-diagonal/) |
 | The Sharp 2k+2 Threshold for Set-Theoretic Finiteness in Algebraic Factor Analysis ([PDF](factor-analysis-threshold/paper/factor-analysis-threshold.pdf)) | [`factor-analysis-threshold/`](factor-analysis-threshold/) |
 
 Every result is proved from Lean's standard axioms only. Any hypothesis a paper's formalization

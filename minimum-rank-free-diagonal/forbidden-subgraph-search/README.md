@@ -1,6 +1,6 @@
 # Exhaustive search for minimal forbidden subgraphs over F_2
 
-Section 7 of the paper (Section 4 of the short version) states that an exhaustive search over all graphs on at most 8 vertices
+Section 4 of the paper states that an exhaustive search over all graphs on at most 8 vertices
 reproduces the published lists of minimal forbidden induced subgraphs for mr(F_2, G) <= k,
 k = 2 and 3. This folder holds that search. Everything is exact computation over F_2.
 
