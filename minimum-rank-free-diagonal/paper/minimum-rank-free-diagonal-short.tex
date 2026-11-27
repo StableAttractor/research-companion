@@ -1,0 +1,156 @@
+\documentclass[11pt,letterpaper,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[final]{microtype}
+\usepackage[top=1.2in,bottom=1.2in,left=1.35in,right=1.35in]{geometry}
+\usepackage{amssymb}
+\usepackage{array,calc,booktabs,enumitem,needspace,etoolbox,float}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,urlcolor=MidnightBlue,citecolor=MidnightBlue]{hyperref}
+\providecommand{\tightlist}{\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}}
+\setlist[itemize]{topsep=4pt,itemsep=5pt,leftmargin=1.6em}
+\setlist[enumerate]{topsep=4pt,itemsep=4pt,leftmargin=2em}
+\newtheoremstyle{spaced}{14pt}{14pt}{\itshape}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{spaced}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}{Lemma}
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}{1.3\linespacing\@plus.6\linespacing}{.4\linespacing}{\normalfont\bfseries}}
+\makeatother
+\makeatletter
+\linespread{1.08}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt plus 2pt minus 1pt}
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{12pt plus 3pt minus 2pt}%
+  \setlength\belowdisplayskip{12pt plus 3pt minus 2pt}%
+  \setlength\abovedisplayshortskip{10pt plus 3pt minus 2pt}%
+  \setlength\belowdisplayshortskip{10pt plus 3pt minus 2pt}}
+\setlength{\jot}{6pt}
+\makeatother
+\widowpenalty=10000 \clubpenalty=10000 \displaywidowpenalty=10000
+\predisplaypenalty=10000 \postdisplaypenalty=0
+\AtBeginEnvironment{theorem}{\interlinepenalty=10000 \keepwithproof}\AtBeginEnvironment{corollary}{\interlinepenalty=10000 \keepwithproof}\AtBeginEnvironment{lemma}{\interlinepenalty=10000 \keepwithproof}
+\AtBeginEnvironment{itemize}{\interlinepenalty=10000 }\AtBeginEnvironment{enumerate}{\interlinepenalty=10000 }\AtBeginEnvironment{thebibliography}{\interlinepenalty=10000 }
+\setlength{\emergencystretch}{2em}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}\renewcommand{\textfraction}{0.08}\renewcommand{\floatpagefraction}{0.8}
+\makeatletter\@secpenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0 \makeatother
+\raggedbottom
+\makeatletter\newcommand\keepwithproof{\@endparpenalty=10000 }\makeatother
+\title[The Sharp $2k+2$ Obstruction Bound for Minimum-Rank Completion with a Free Diagonal]{The Sharp $2k+2$ Obstruction Bound for Minimum-Rank Completion with a Free Diagonal\\[6pt] {\mdseries\small With Consequences for Graph Minimum Rank over $\mathbb{F}_2$ and for Subgraph Complementation}}
+\date{24 November 2026}
+\subjclass[2020]{Primary 15A83, 05C50; Secondary 15A03, 05C75, 05B35}
+\keywords{Minimum rank, matrix completion, free diagonal, forbidden induced subgraph, finite field, matroid union}
+\pagestyle{plain}
+\renewcommand{\abstractname}{Summary}
+\begin{document}
+\begin{abstract}
+A matrix of rank \(r\) has an \(r \times r\) non-zero minor, on at most \(2r\) indices. The same holds when the diagonal is free: if \(c\) is the least rank over all choices of the diagonal, some set of at most \(c + j \le 2c\) indices already forces rank \(c\), where \(j\) is the largest rank of an off-diagonal block cut out by a bipartition of the indices. Consequently a minimal obstruction to ``least rank \(\le k\)'' has at most \(2k+2\) indices, over any field, symmetric or not, and this is sharp. Over \(\mathbb{F}_2\): every minimal forbidden induced subgraph for \(\operatorname{mr}(\mathbb{F}_2, G) \le k\) has at most \(2k+2\) vertices. Previously this was known for \(k \le 3\) from the explicit lists {[}BvHL05, BGL09{]}; the general bound of Ding and Kotlov {[}DK06{]}, \((\lvert F\rvert^k/2 + 1)^2\), is exponential in \(k\). As an application, we settle the subgraph-complementation conjecture of Buchanan, Purcell and Rombach {[}BPR22{]}: the bound \(2k+2\) holds for every odd \(k\) and fails for every even \(k \ge 4\). All results are formalized in Lean 4.
+
+\end{abstract}
+\maketitle
+\begin{quote}\small
+\textsc{Disclosure.} The argument was produced by an AI system (Claude, Anthropic). It has not yet been peer reviewed. Contact: stableattractor@gmail.com.
+
+\end{quote}
+\smallskip
+\hypertarget{setting}{%
+\section{Setting}\label{setting}}
+
+\(F\) is any field and \(E = \{1, \dots, n\}\). A \emph{pattern} \(x\) is an \(n \times n\) array over \(F\) with its off-diagonal entries given and its diagonal free; it need not be symmetric. A \emph{completion} is any matrix with those off-diagonal entries, and \(c(x)\) is the least rank of a completion. \(x_T\) is the restriction of \(x\) to rows and columns in \(T \subseteq E\). A \emph{cut rank} is \(\operatorname{rank} x[A, E \setminus A]\) for some \(A \subseteq E\); the largest cut rank is the off-diagonal rank of Fiedler and Markham {[}FM87{]}.
+
+Three easy facts: \textbf{(a)} \(c(x_T) \le c(x)\); \textbf{(b)} every cut rank is at most \(c(x)\); \textbf{(c)} adding one index raises \(c\) by at most 2.
+
+\hypertarget{results-and-proofs}{%
+\section{Results and proofs}\label{results-and-proofs}}
+
+\begin{lemma}
+If \(G\) is an \(n \times n\) matrix of rank \(q\) and \(A, C \subseteq E\), then \(\operatorname{rank} G[A, E] + \operatorname{rank} G[E, C] \le q + \operatorname{rank} G[A, C]\).
+\end{lemma}
+
+\begingroup\interlinepenalty=10000 \emph{Proof.} Write \(G = PQ\) with \(P\) of size \(n \times q\) and \(Q\) of size \(q \times n\), both of rank \(q\). Since \(P\) is injective and \(Q\) surjective, the three ranks are \(\operatorname{rank} P_A\) (the rows of \(P\) in \(A\)), \(\operatorname{rank} Q_C\) (the columns of \(Q\) in \(C\)) and \(\operatorname{rank}(P_A Q_C)\), and Sylvester's inequality gives
+\[\operatorname{rank}(P_A Q_C) \ge \operatorname{rank} P_A + \operatorname{rank} Q_C - q. \tag*{$\square$}\]\par\endgroup
+
+\begin{theorem}[Witness theorem]
+Let every cut rank of \(x\) be at most \(j\), and let \(G\) be any completion of \(x\), of rank \(q\). Then there is \(T \subseteq E\) with \(\lvert T\rvert \le q + j\) and \(c(x_T) = c(x)\). In particular, with \(c = c(x)\) and \(G\) optimal, some \(T\) with \(\lvert T\rvert \le c + j\) has \(c(x_T) = c\); by (b) one may take \(j = c\), so \(\lvert T\rvert \le 2c\).
+\end{theorem}
+
+\begingroup\interlinepenalty=10000 \emph{Proof.} Write \(\operatorname{row}(S) = \operatorname{rank} G[S, E]\) and \(\operatorname{col}(S) = \operatorname{rank} G[E, S]\), the rank functions of the row and column matroids of \(G\). By the matroid union theorem {[}Ox11{]},
+\[\max_{E = A \sqcup C}\big(\operatorname{row}(A) + \operatorname{col}(C)\big) = \min_{X \subseteq E}\big(\lvert E \setminus X\rvert + \operatorname{row}(X) + \operatorname{col}(X)\big).\]\par\endgroup
+
+\begingroup\interlinepenalty=10000 Fix a minimiser \(X\) and let \(Y = E \setminus X\). For a partition \(E = A \sqcup C\) the block \(G[A, C]\) is the cut \(x[A, C]\), of rank at most \(j\), so the left side is at most \(q + j\) by Lemma~1. Hence
+\[\lvert Y\rvert + \operatorname{row}(X) + \operatorname{col}(X) \le q + j.\]
+By minimality of \(X\), every \(X' \subseteq X\) has
+\[\lvert X \setminus X'\rvert + \operatorname{row}(X') + \operatorname{col}(X') \ \ge\ \operatorname{row}(X) + \operatorname{col}(X);\postdisplaypenalty=10000 \]
+so the same theorem on the ground set \(X\) gives a partition \(X = A' \sqcup C'\) with
+\[\operatorname{row}(A') + \operatorname{col}(C') = \operatorname{row}(X) + \operatorname{col}(X);\postdisplaypenalty=10000 \]
+hence \(\operatorname{row}(A') = \operatorname{row}(X)\) and \(\operatorname{col}(C') = \operatorname{col}(X)\). Take \(I_1 \subseteq A'\) indexing a basis of the rows of \(G\) in \(A'\) and \(I_2 \subseteq C'\) indexing a basis of its columns in \(C'\): then \(I_1 \cap I_2 = \emptyset\), the rows in \(I_1\) span the rows in \(X\), and the columns in \(I_2\) span the columns in \(X\). Put \(T = Y \cup I_1 \cup I_2\); then
+\[\lvert T\rvert = \lvert Y\rvert + \operatorname{row}(X) + \operatorname{col}(X) \le q + j.\]\par\endgroup
+
+\begingroup\interlinepenalty=10000 Let \(H\) be any completion of \(x_T\), and let \(M\) be \(G\) with its diagonal entries on \(Y\) replaced by those of \(H\). Then \(M\) is a completion of \(x\), so \(\operatorname{rank} M \ge c(x)\). For \(i \in X\), row \(i\) and column \(i\) of \(M\) are those of \(G\). So the rows of \(M\) indexed by \(X\) are spanned by those indexed by \(I_1\), and then, since column relations survive deleting rows, the columns indexed by \(X\) by those indexed by \(I_2\):
+\[\operatorname{rank} M = \operatorname{rank} M[Y \cup I_1,\ Y \cup I_2].\]\par\endgroup
+
+This block is also a block of \(H\): off the diagonal both carry the entries of \(x\), and its only diagonal positions lie in \(Y\) (as \(I_1 \cap I_2 = \emptyset\)), where \(M\) and \(H\) agree. So \(\operatorname{rank} H \ge \operatorname{rank} M \ge c(x)\), and with (a), \(c(x_T) = c(x)\). \qed
+
+\emph{Restricted diagonals.} All of this holds, with \(c\) the least rank of an admissible completion, when each diagonal entry is confined to a non-empty set \(\Omega_i \subseteq F\) and \(G\) is admissible: \(M\) is then admissible (its diagonal is that of \(G\) on \(X\) and of \(H\) on \(Y\)), and (a) to (c) still hold. This gives Theorem~1 and the bound \(n \le 2k+2\) of Theorem~2; sharpness needs the diagonal values \(0\) and \(1\).
+
+\begin{theorem}[Sharp threshold]
+If \(c(x) \ge k+1\) and \(c(x_T) \le k\) for every proper \(T \subsetneq E\), then \(n \le 2k+2\). Hence \(c(x) \le k\) if and only if \(c(x_T) \le k\) for all \(\lvert T\rvert \le 2k+2\), and \(2k+2\) cannot be lowered.
+\end{theorem}
+
+\emph{Proof.} By (c), \(c(x) \le k+2\). If some cut rank is at least \(k+1\), there are disjoint \(R, C\) of size \(k+1\) with \(x[R, C]\) non-singular; by (b) the sub-pattern on \(R \cup C\) has \(c \ge k+1\), so \(E = R \cup C\). Otherwise Theorem~1 with \(j \le k\) gives \(T\) with \(c(x_T) = c(x)\) and \(\lvert T\rvert \le (k+2) + k\), and \(T = E\) by minimality. For the equivalence, apply this to an inclusion-minimal \(T\) with \(c(x_T) \ge k+1\). Sharpness: the adjacency array of a perfect matching on \(2k+2\) indices has a cut of rank \(k+1\), so \(c \ge k+1\) by (b); after deleting any index the \(k\) remaining pairs are completed to rank one each by diagonal entries \(1\) and the isolated index by \(0\), so by (a) every proper sub-pattern has \(c \le k\). \qed
+
+\begin{corollary}[Graphs over $\mathbb{F}_2$]
+Let \(\operatorname{mr}(\mathbb{F}_2, G)\) be the least rank of a symmetric matrix over \(\mathbb{F}_2\) whose non-zero off-diagonal entries are exactly the edges of the graph \(G\). Every minimal forbidden induced subgraph for \(\operatorname{mr}(\mathbb{F}_2, G) \le k\) has at most \(2k+2\) vertices, and \((k+1)K_2\) attains this. Every graph has an induced subgraph on at most \(2\operatorname{mr}(\mathbb{F}_2, G)\) vertices with the same minimum rank.
+\end{corollary}
+
+\emph{Proof.} Over \(\mathbb{F}_2\) a symmetric pattern is the adjacency array of a graph, its completions are symmetric, sub-patterns are induced subgraphs, and \(c\) is \(\operatorname{mr}(\mathbb{F}_2, \cdot)\). \qed
+
+For \(F \ne \mathbb{F}_2\), \(\operatorname{mr}(F, G)\) also minimises over the off-diagonal values, and Theorem~2 does not bound its forbidden subgraphs.
+
+\newpage\hypertarget{the-subgraph-complementation-conjecture}{%
+\section{The subgraph complementation conjecture}\label{the-subgraph-complementation-conjecture}}
+
+Let \(c_2(G)\) be the least number of vertex subsets whose cliques sum modulo 2 to \(G\). Buchanan, Purcell and Rombach {[}BPR22{]} show \(\operatorname{mr}(\mathbb{F}_2, G) \le c_2(G) \le \operatorname{mr}(\mathbb{F}_2, G) + 1\) and that for odd \(k\), \(c_2(G) \le k\) if and only if \(\operatorname{mr}(\mathbb{F}_2, G) \le k\). They conjecture that every minimal forbidden induced subgraph for \(c_2 \le k\) has at most \(2k+2\) vertices, and prove it for \(k = 2\).
+
+\begin{theorem}
+The conjecture holds for every odd \(k\), and fails for every even \(k \ge 4\).
+\end{theorem}
+
+\emph{Proof.} Odd \(k\): let \(H\) be minimal forbidden for \(c_2 \le k\). Its proper induced subgraphs have \(\operatorname{mr} \le c_2 \le k\), and \(\operatorname{mr}(H) \ge k+1\), since otherwise \(c_2(H) \le k\). So \(H\) is minimal forbidden for \(\operatorname{mr} \le k\), and Corollary~3 applies.
+
+Even \(k = 2m \ge 4\): let \(H = mK_{3,3}\), on \(3k > 2k+2\) vertices. By {[}L75{]}, a non-zero symmetric matrix over \(\mathbb{F}_2\) of rank \(r\) is a sum of \(r\) matrices \(vv^{\mathsf T}\) and no fewer if its diagonal is non-zero, and of \(r+1\) and no fewer if its diagonal is zero; so \(c_2\) is the least such count over completions (and \(0\) for the zero matrix). \(K_{3,3}\) has minimum rank 2, and its only completion of rank 2 is its adjacency matrix (64 diagonals to check). Completions of \(H\) are block diagonal, so the only one of rank \(2m\) has zero diagonal, and \(c_2(H) = 2m+1\). Deleting a vertex leaves a component \(K_{2,3}\), which has a completion of rank 2 with a non-zero diagonal, so \(c_2\) drops to at most \(2m\); and \(c_2\) does not increase on induced subgraphs. \qed
+
+For even \(k \ge 4\) the sharp bound is at least \(3k\); its exact value is open. Counterexamples built from disjoint copies of the five-vertex wheel \(W_5\) (a 4-cycle with a hub) were proposed in {[}PX26{]}; they exceed \(2k+2\) from \(k = 6\) on.
+
+\hypertarget{relation-to-known-results}{%
+\section{Relation to known results}\label{relation-to-known-results}}
+
+Over \(\mathbb{F}_2\) the exact lists of minimal forbidden induced subgraphs for \(k = 2\) {[}BvHL05{]} and \(k = 3\) {[}BGL09{]} have largest members on 6 and 8 vertices, as Corollary~3 predicts, and an exhaustive search over all graphs on at most 8 vertices reproduces both lists. Grout {[}G10{]} characterised the graphs with \(\operatorname{mr}(\mathbb{F}_q, G) \le k\) for all \(k\) and \(q\) and asked how to obtain results on their minimal forbidden subgraphs from that classification; Corollary~3 gives the sharp size bound over \(\mathbb{F}_2\) by a different route.
+
+Two lower bounds for minimum rank, maximum cut-rank ({[}NO20{]}, Theorem~6.1) and \(\lvert V(G)\rvert\) minus the zero forcing number ({[}A+26{]}, Theorem~5), were known to have obstruction threshold \(2k+2\); Corollary~3 shows that over \(\mathbb{F}_2\) the minimum rank itself does. Maximum cut-rank is the parameter \(j\), and accounts for the easy case \(j \ge k+1\) of Theorem~2; Theorem~1 handles the case \(j \le k < c\). Fiedler and Markham {[}FM87{]} introduced the off-diagonal rank for this completion problem and showed \(c = j\) under a strong genericity hypothesis; Theorem~1 needs no hypothesis and covers the regime in which \(c\) exceeds \(j\). To our knowledge Theorems~1 and 2 are new.
+
+\newpage\hypertarget{formalization}{%
+\section{Formalization}\label{formalization}}
+
+Every numbered statement, including the facts from {[}L75{]} and {[}BPR22{]} that the proofs use, is formalized in Lean 4 {[}Lean4{]} with Mathlib {[}Mathlib{]}, with no axioms beyond Lean's standard ones: \href{https://github.com/StableAttractor/research-companion/tree/6ea6f9c5e396a67cb100720ea44652ff521a2db8}{github.com/\allowbreak{}StableAttractor/\allowbreak{}\mbox{research-companion}} (commit \texttt{6ea6f9c}), file \texttt{lean/\allowbreak{}FreeDiagonal/\allowbreak{}Results.lean}.
+
+\begin{thebibliography}{Mathlib}
+\footnotesize\linespread{1}\selectfont\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\bibitem[A+26]{A26} C. A. Alfaro, M. D. Barrus, S. G. Gómez-Galicia, T. I. Hoekstra-Mendoza, M. Licona, J. C.-H. Lin, J. P. Serrano, R. R. Villagrán, \emph{The forbidden structure for zero forcing number}. arXiv:2608.27972.
+\bibitem[BGL09]{BGL09} W. Barrett, J. Grout, R. Loewy, \emph{The minimum rank problem over the finite field of order 2: minimum rank 3}. Linear Algebra and its Applications 430 (2009), 890--923. arXiv:math/0612331.
+\bibitem[BPR22]{BPR22} C. Buchanan, C. Purcell, P. Rombach, \emph{Subgraph complementation and minimum rank}. Electronic Journal of Combinatorics 29(1) (2022), P1.38. arXiv:2101.06180.
+\bibitem[BvHL05]{BvHL05} W. Barrett, H. van der Holst, R. Loewy, \emph{Graphs whose minimal rank is two: the finite fields case}. Electronic Journal of Linear Algebra 14 (2005), 32--42. doi:10.13001/1081-3810.1175.
+\bibitem[DK06]{DK06} G. Ding, A. Kotlov, \emph{On minimal rank over finite fields}. Electronic Journal of Linear Algebra 15 (2006), 210--214. doi:10.13001/1081-3810.1231.
+\bibitem[FM87]{FM87} M. Fiedler, T. L. Markham, \emph{Rank-preserving diagonal completions of a matrix}. Linear Algebra and its Applications 85 (1987), 49--56. doi:10.1016/0024-3795(87)90207-2.
+\bibitem[G10]{G10} J. Grout, \emph{The minimum rank problem over finite fields}. Electronic Journal of Linear Algebra 20 (2010), 691--716. arXiv:0801.2987.
+\bibitem[L75]{L75} A. Lempel, \emph{Matrix factorization over \(GF(2)\) and trace-orthogonal bases of \(GF(2^n)\)}. SIAM Journal on Computing 4(2) (1975), 175--186. doi:10.1137/0204014.
+\bibitem[Lean4]{Lean4} L. de Moura, S. Ullrich, \emph{The Lean 4 theorem prover and programming language}. In: A. Platzer, G. Sutcliffe (eds.), Automated Deduction -- CADE 28, Lecture Notes in Computer Science 12699, Springer, 2021, 625--635. doi:10.1007/978-3-030-79876-5\_37.
+\bibitem[Mathlib]{Mathlib} The mathlib Community, \emph{The Lean mathematical library}. In: Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP 2020), ACM, 2020, 367--381. doi:10.1145/3372885.3373824. arXiv:1910.09336.
+\bibitem[NO20]{NO20} H.-T. Nguyen, S. Oum, \emph{The average cut-rank of graphs}. European Journal of Combinatorics 90 (2020), 103183. arXiv:1906.02895.
+\bibitem[Ox11]{Ox11} J. Oxley, \emph{Matroid Theory}, 2nd edition. Oxford University Press, 2011.
+\bibitem[PX26]{PX26} ProbXiv, \emph{Subgraph complementation and minimum rank}, problem page dated 17 August 2026. \url{https://probxiv.com/problems/subgraph-complementation-and-minimum-rank}
+\end{thebibliography}
+\end{document}

@@ -4,6 +4,12 @@ Formalization and computation for this paper. The Lean project is in [`../lean/`
 name below is in the namespace `FreeDiagonal.Results` and is stated in
 `lean/FreeDiagonal/Results.lean`, with its proof in the library file given.
 
+## Contents
+
+- [`paper/`](paper/): the paper ([PDF](paper/factor-analysis-threshold.pdf)), with its LaTeX source.
+- [`example18-singular/`](example18-singular/): the reproduction of the computation of [DSS07, Example 18] that Theorem 6 uses, with its logs.
+- The formalization: the table below, and the Lean project in [`../lean/`](../lean/).
+
 ## Statements
 
 | Statement in the paper | Lean name | Proof in `lean/FreeDiagonal/` |

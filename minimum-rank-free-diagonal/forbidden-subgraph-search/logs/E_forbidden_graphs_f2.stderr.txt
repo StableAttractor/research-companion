@@ -1,0 +1,6 @@
+tables n=2 done
+tables n=3 done
+tables n=4 done
+tables n=5 done
+tables n=6 done
+tables n=7 done

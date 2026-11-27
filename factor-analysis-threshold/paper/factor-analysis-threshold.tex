@@ -1,0 +1,186 @@
+\documentclass[11pt,letterpaper,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[final]{microtype}
+\usepackage[top=1.2in,bottom=1.2in,left=1.35in,right=1.35in]{geometry}
+\usepackage{amssymb}
+\usepackage{array,calc,booktabs,enumitem,needspace,etoolbox,float}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,urlcolor=MidnightBlue,citecolor=MidnightBlue]{hyperref}
+\providecommand{\tightlist}{\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}}
+\setlist[itemize]{topsep=4pt,itemsep=5pt,leftmargin=1.6em}
+\setlist[enumerate]{topsep=4pt,itemsep=4pt,leftmargin=2em}
+\newtheoremstyle{spaced}{14pt}{14pt}{\itshape}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{spaced}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}{Lemma}
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}{1.3\linespacing\@plus.6\linespacing}{.4\linespacing}{\normalfont\bfseries}}
+\makeatother
+\makeatletter
+\linespread{1.08}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt plus 2pt minus 1pt}
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{12pt plus 3pt minus 2pt}%
+  \setlength\belowdisplayskip{12pt plus 3pt minus 2pt}%
+  \setlength\abovedisplayshortskip{10pt plus 3pt minus 2pt}%
+  \setlength\belowdisplayshortskip{10pt plus 3pt minus 2pt}}
+\setlength{\jot}{6pt}
+\makeatother
+\widowpenalty=10000 \clubpenalty=10000 \displaywidowpenalty=10000
+\predisplaypenalty=10000 \postdisplaypenalty=0
+\AtBeginEnvironment{theorem}{\interlinepenalty=10000 \keepwithproof}\AtBeginEnvironment{corollary}{\interlinepenalty=10000 \keepwithproof}\AtBeginEnvironment{lemma}{\interlinepenalty=10000 \keepwithproof}
+\AtBeginEnvironment{itemize}{\interlinepenalty=10000 }\AtBeginEnvironment{enumerate}{\interlinepenalty=10000 }\AtBeginEnvironment{thebibliography}{\interlinepenalty=10000 }
+\setlength{\emergencystretch}{2em}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}\renewcommand{\textfraction}{0.08}\renewcommand{\floatpagefraction}{0.8}
+\makeatletter\@secpenalty=0 \@beginparpenalty=0 \@endparpenalty=0 \@itempenalty=0 \makeatother
+\raggedbottom
+\makeatletter\newcommand\keepwithproof{\@endparpenalty=10000 }\makeatother
+\title[The Sharp $2k+2$ Threshold for Set-Theoretic Finiteness in Algebraic Factor Analysis]{The Sharp $2k+2$ Threshold for Set-Theoretic Finiteness in Algebraic Factor Analysis\\[6pt] {\mdseries\small With a Proof of Conjecture 28 of Drton, Sturmfels and Sullivant}}
+\date{27 November 2026}
+\subjclass[2020]{Primary 62R01, 14M12; Secondary 15A83, 62H25, 05B35}
+\keywords{Factor analysis, algebraic statistics, symmetric determinantal varieties, matrix completion, free diagonal, finiteness, matroid union}
+\pagestyle{plain}
+\renewcommand{\abstractname}{Summary}
+\begin{document}
+\begin{abstract}
+A matrix of size \(n \ge 2k+2\) has rank at most \(k\) exactly when each of its principal submatrices of size \(2k+2\) does, since every \((k+1)\)-minor lies in one of them. We show that the same holds when the diagonal is unknown, which is the situation of factor analysis. Over an algebraically closed field and for \(n \ge 2k+2\), a symmetric \(n \times n\) array of off-diagonal entries lies in the variety of the \(k\)-factor model, the Zariski closure of the off-diagonal parts of the symmetric matrices of rank at most \(k\), exactly when each of its principal sub-arrays on \(2k+2\) indices does; \(2k+2\) is least {[}DX10, Example 8{]}, and the same holds for non-symmetric arrays, with all matrices of rank at most \(k\) in place of the symmetric ones. Draisma proved that some finite number suffices {[}Dr10{]}, and \(2k+2\) was known for symmetric arrays with \(k \le 2\). Consequently \(t(m) = 2m+2\) in Question 29 of {[}DSS07{]}, and, with their computation for eight variables, their Conjecture 28 holds: the off-diagonal \(4 \times 4\) minors and the septads generate the ideal of the three-factor model up to radical. The proof runs through the closure rank \(\rho\), the least number of indices to delete plus the least rank of a diagonal completion of the rest: if every off-diagonal block cut out by a bipartition has rank at most \(j\), then \(\rho\) is attained on at most \(\rho + j\) indices, hence on at most \(2\rho\), over any field and without symmetry. All results are formalized in Lean 4; the only input taken as a hypothesis is the computation of {[}DSS07, Example 18{]}.
+
+\end{abstract}
+\maketitle
+\begin{quote}\small
+\textsc{Disclosure.} The argument was produced by an AI system (Claude, Anthropic). It has not yet been peer reviewed. Contact: stableattractor@gmail.com.
+
+\end{quote}
+\smallskip
+\hypertarget{setting}{%
+\section{Setting}\label{setting}}
+
+An unknown diagonal entry can be handled in two ways: by choosing it, or by deleting its row and column. The closure rank records the cheapest mixture of the two.
+
+\begingroup\interlinepenalty=10000 \(F\) is any field and \(E = \{1, \dots, n\}\). A \emph{pattern} \(x\) is an \(n \times n\) array over \(F\) with its off-diagonal entries given and its diagonal free, not necessarily symmetric. A \emph{completion} is any matrix with those off-diagonal entries, \(c(x)\) is the least rank of a completion, and \(x_T\) is the restriction of \(x\) to rows and columns in \(T \subseteq E\). A \emph{cut rank} is \(\operatorname{rank} x[A, E \setminus A]\) for some \(A \subseteq E\); the largest is the off-diagonal rank of Fiedler and Markham {[}FM87{]}. The \emph{closure rank} is
+\[\rho(x) = \min_{D \subseteq E} \big( \lvert D\rvert + c(x_{E \setminus D}) \big).\]\par\endgroup
+
+Four easy facts: \textbf{(a)} \(\rho(x_T) \le \rho(x)\); \textbf{(b)} every cut rank is at most \(\rho(x)\), as deleting an optimal \(D\) lowers a cut rank by at most \(\lvert D\rvert\); \textbf{(c)} \(\rho(x) \le \rho(x_{E \setminus \{v\}}) + 1\); \textbf{(d)} \(\rho(x) \le c(x)\).
+
+\begingroup\interlinepenalty=10000 A \emph{dial setting} \(d\) gives each \(i \in E\) a value \(d_i \in F \cup \{\infty\}\), where \(\infty\) means deletion. For an \(n \times n\) matrix \(G\) let \(N(d) = \{i : d_i = \infty\}\), \(S(d) = E \setminus N(d)\), \(G_d = (G - \operatorname{diag}(d))[S(d), S(d)]\) and \(\operatorname{cost}(G, d) = \lvert N(d)\rvert + \operatorname{rank} G_d\). If \(G\) is a completion of \(x\), the matrices \(G_d\) with \(S(d) = S\) are the completions of \(x_S\), so for every \(T \subseteq E\)
+\[\rho(x_T) + \lvert E \setminus T\rvert = \min \{ \operatorname{cost}(G, d) : d_i = \infty \text{ for all } i \notin T \}, \tag{1}\postdisplaypenalty=10000 \]
+and \(\rho(x) = \min_d \operatorname{cost}(G, d)\).\par\endgroup
+
+For \(K\) algebraically closed, \(D_{n,k}\) and \(X_{n,k}\) are the Zariski closures of the patterns, respectively the symmetric patterns, with \(c \le k\), in the space of all, respectively all symmetric, patterns over \(K\); completions of symmetric patterns are symmetric, and in characteristic other than 2, \(X_{n,k}\) is the closure of the patterns of the matrices \(\Lambda\Lambda^{\mathsf T}\) with \(\Lambda \in K^{n \times k}\). \(X_{T,k}\) is \(X_{\lvert T\rvert, k}\) on the indices \(T\).
+
+\hypertarget{closure-rank}{%
+\section{Closure rank}\label{closure-rank}}
+
+Closure rank has an algebraic meaning and a combinatorial one. Lemma~1 identifies \(\{\rho \le k\}\) with the factor-analysis varieties, and Theorem~1 shows that \(\rho\) is always witnessed on few indices; together they give the threshold, Theorem~3.
+
+\begin{lemma}[closure rank and the varieties]
+Let \(K\) be algebraically closed. Then \(D_{n,k} = \{x : \rho(x) \le k\}\) and \(X_{n,k} = \{x \text{ symmetric} : \rho(x) \le k\}\).
+\end{lemma}
+
+\begingroup\interlinepenalty=10000 \emph{Proof.} Let \(\rho(x) \le k\), attained by \(D\) with \(\lvert D\rvert = m\), and let \(M'\) be a completion of \(x_{E \setminus D}\) of rank at most \(k - m\), extended by zero to an \(n \times n\) matrix. Order \(D\), and for \(i \in D\) let \(r_i\) and \(c_i\) be row \(i\) and column \(i\) of \(x\), as column vectors with the entries at \(i\) and at the earlier elements of \(D\) set to zero. For \(t \ne 0\) the matrix
+\[M_t = M' + \sum_{i \in D} t^{-1} (e_i + t c_i)(e_i + t r_i)^{\mathsf T}\postdisplaypenalty=10000 \]
+has rank at most \(k\). Its terms in \(t^{-1}\) are diagonal, and its terms of order \(t^0\), namely \(M'\), the vector \(r_i\) in row \(i\) and the vector \(c_i\) in column \(i\), add up off the diagonal to \(x\), a position with both indices in \(D\) receiving its entry from the earlier of the two. So the pattern of \(M_t\) is \(x + ty\) for a fixed \(y\): a line through \(x\) whose other points have \(c \le k\). As \(K\) is infinite, \(x \in D_{n,k}\); if \(x\) is symmetric, so are \(M'\) and \(M_t\), and \(x \in X_{n,k}\).\par\endgroup
+
+Conversely, \(\{\rho \le k\}\) contains \(\{c \le k\}\) by (d) and is Zariski closed. Let \(G\) be the completion of \(x\) with zero diagonal and, for \((\lambda_i : \mu_i)_{i \in E} \in (\mathbb{P}^1)^n\), let row \(i\) of \(W\) be \(\mu_i\) times row \(i\) of \(G\) minus \(\lambda_i e_i^{\mathsf T}\). With \(d_i = \lambda_i / \mu_i\), or \(\infty\) if \(\mu_i = 0\), the rows of \(W\) in \(N(d)\) are non-zero multiples of unit rows, and removing them with the corresponding columns leaves a row scaling of \(G_d\); so \(\operatorname{rank} W = \operatorname{cost}(G, d)\). By (1), \(\{\rho \le k\}\) is therefore the projection along \((\mathbb{P}^1)^n\) of the closed set where the minors of \(W\) of size \(k+1\) vanish (they are multihomogeneous in the pairs \((\lambda_i, \mu_i)\)), and this projection maps closed sets to closed sets because \((\mathbb{P}^1)^n\) is projective, by the Segre embedding, and hence complete {[}Stacks, Tags 01WD, 01WC, 01W0, 01W4{]}; as \(K\) is algebraically closed, closed images of schemes give closed images of \(K\)-points. \qed
+
+\begin{lemma}[pivot]
+Let \(G\) be an \(n \times n\) matrix over \(F\) and \(D \subseteq E\) with \(G[D, D]\) invertible. For a dial setting \(d\) let \(d'\) agree with \(d\) off \(D\) and, on \(D\), exchange \(\infty\) with \(0\) and replace every other value \(t\) by \(1/t\); then \(d \mapsto d'\) is an involution. There is an \(n \times n\) matrix \(G'\) such that \textbf{(i)} \(\operatorname{cost}(G', d') = \operatorname{cost}(G, d)\) for every \(d\); \textbf{(ii)} \(\operatorname{rank} G'[E \setminus A, A] = \operatorname{rank} G[E \setminus A, A]\) for every \(A \subseteq E\); \textbf{(iii)} \(G'[D, D]\) is invertible.
+\end{lemma}
+
+\emph{Proof.} Let \(\operatorname{Ker}(G, d)\) be the set of \(v \in F^E\) with \(v_i = 0\) on \(N(d)\) and \((Gv)_i = d_i v_i\) on \(S(d)\), that is, the vectors supported on \(S(d)\) whose restriction is killed by \(G_d\); so \(\operatorname{cost}(G, d) = n - \dim \operatorname{Ker}(G, d)\). Let \(Pv = (Gv \text{ on } D,\ v \text{ off } D)\) and \(Qv = (v \text{ on } D,\ Gv \text{ off } D)\). If \(Pv = 0\), then \(v\) vanishes off \(D\) and \(G[D, D] v_D = 0\), so \(P\) is invertible; put \(G' = Q P^{-1}\), the principal pivot transform of \(G\) on \(D\). For \(u = Pv\), the pair \((u_i, (G'u)_i)\) is \((v_i, (Gv)_i)\) with its coordinates exchanged if \(i \in D\) and unchanged if \(i \notin D\).
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\item
+  The condition defining \(\operatorname{Ker}(G, d)\) at \(i\) puts the pair \((v_i, (Gv)_i)\) on a line of \(F^2\): \(\{(a, b) : a = 0\}\) if \(d_i = \infty\), and \(\{(a, b) : b = d_i a\}\) otherwise. Exchanging the coordinates swaps the lines of \(\infty\) and \(0\) and sends the line of \(t\) to that of \(1/t\), so \(P\) maps \(\operatorname{Ker}(G, d)\) onto \(\operatorname{Ker}(G', d')\).
+\item
+  Restriction to \(A\) identifies \(\ker G[E \setminus A, A]\) with the space of \(v\) with \(v_i = (Gv)_i = 0\) for all \(i \notin A\). The exchange preserves this condition, so \(P\) maps the space onto the corresponding one for \(G'\), and the two blocks, each with \(\lvert A\rvert\) columns, have equal rank; this is a case of the nullity theorem for principal pivot transforms {[}Br13, Theorem~1{]}.
+\item
+  If \(G'[D, D] w = 0\), let \(u\) be \(w\) extended by zero and \(v = P^{-1} u\). Then \(v_i = u_i = 0\) off \(D\) and \(v_i = (G'u)_i = 0\) on \(D\), so \(v = 0\) and \(w = 0\). \qed
+\end{enumerate}
+
+\begin{theorem}[witness theorem]
+Let \(F\) be any field and let \(x\) be a pattern over \(F\), symmetric or not, all of whose cut ranks are at most \(j\). Then there is \(T \subseteq E\) with \(\lvert T\rvert \le \rho(x) + j\) and \(\rho(x_T) = \rho(x)\). By (b) one may take \(j = \rho(x)\), so that \(\lvert T\rvert \le 2\rho(x)\).
+\end{theorem}
+
+\emph{Proof.} Let \(q = \rho(x)\), attained by \(D^*\), and let \(H\) be a completion of \(x_{E \setminus D^*}\) of rank \(q - \lvert D^*\rvert\). Let \(G\) be the completion of \(x\) that agrees with \(H\) off \(D^*\) and has \(G[D^*, D^*]\) invertible; its diagonal on \(D^*\) can be chosen entry by entry, each step excluding at most one value, as the determinant of the growing block is affine in the new entry with the previous determinant as coefficient. Let \(G'\) be as in Lemma~2 with \(D = D^*\). The dial setting equal to \(\infty\) on \(D^*\) and to \(0\) elsewhere has cost \(\lvert D^*\rvert + \operatorname{rank} H = q\) for \(G\), and \(d \mapsto d'\) sends it to the setting \(0\), so \(\operatorname{rank} G' = q\) by (i). As \(d \mapsto d'\) is a bijection that keeps the values off \(D^*\), (i) and (1) give \(\operatorname{cost}(G', e) \ge q\) for every \(e\), and (1) holds with \(G'\) in place of \(G\) whenever \(T \supseteq D^*\), although \(G'\) is not a completion of \(x\).
+
+\begingroup\interlinepenalty=10000 Write \(\operatorname{row}(S) = \operatorname{rank} G'[S, E]\) and \(\operatorname{col}(S) = \operatorname{rank} G'[E, S]\), the rank functions of the row and column matroids of \(G'\). By the matroid union theorem {[}Ox11{]},
+\[\max_{E = A \sqcup C}\big(\operatorname{row}(A) + \operatorname{col}(C)\big) = \min_{X \subseteq E}\big(\lvert E \setminus X\rvert + \operatorname{row}(X) + \operatorname{col}(X)\big).\]\par\endgroup
+
+Fix a minimiser \(X\) and let \(Y = E \setminus X\). For a partition \(E = A \sqcup C\), \(\operatorname{rank} G'[A, C] = \operatorname{rank} x[A, C] \le j\) by (ii), so Frobenius's rank inequality, \(\operatorname{rank} G'[A, E] + \operatorname{rank} G'[E, C] \le \operatorname{rank} G' + \operatorname{rank} G'[A, C]\), bounds the left side by \(\operatorname{rank} G' + j = q + j\). Hence \(\lvert Y\rvert + \operatorname{row}(X) + \operatorname{col}(X) \le q + j\). By minimality of \(X\), every \(X' \subseteq X\) has \(\lvert X \setminus X'\rvert + \operatorname{row}(X') + \operatorname{col}(X') \ge \operatorname{row}(X) + \operatorname{col}(X)\); so the same theorem on the ground set \(X\) gives a partition \(X = A' \sqcup C'\) with \(\operatorname{row}(A') = \operatorname{row}(X)\) and \(\operatorname{col}(C') = \operatorname{col}(X)\). The rows of \(G'\) indexed by \(D^*\) are independent by (iii), and so are its columns; take \(I_1 \subseteq A'\) indexing a basis of the rows of \(G'\) in \(A'\) with \(D^* \cap A' \subseteq I_1\), and \(I_2 \subseteq C'\) indexing a basis of its columns in \(C'\) with \(D^* \cap C' \subseteq I_2\). Then \(I_1 \cap I_2 = \emptyset\), the rows in \(I_1\) span the rows in \(X\), and the columns in \(I_2\) span the columns in \(X\). Put \(T = Y \cup I_1 \cup I_2\); then \(D^* \subseteq T\) and \(\lvert T\rvert = \lvert Y\rvert + \operatorname{row}(X) + \operatorname{col}(X) \le q + j\).
+
+\begingroup\interlinepenalty=10000 By (1) for \(G'\) and (a), it remains to show \(\operatorname{cost}(G', l) \ge \lvert E \setminus T\rvert + q\) whenever \(l_i = \infty\) for all \(i \notin T\). Let \(e\) be \(0\) on \(X\) and \(l\) on \(Y\), so that \(\operatorname{cost}(G', e) \ge q\) and \(N(e) = N(l) \cap Y\), and let \(Y_0 = Y \setminus N(l)\). For \(i \in X\), row \(i\) and column \(i\) of \(G'_e\) are those of \(G'\) restricted to \(S(e)\). So the rows of \(G'_e\) indexed by \(X\) are spanned by those indexed by \(I_1\), and then, since column relations survive deleting rows, its columns indexed by \(X\) by those indexed by \(I_2\): \(\operatorname{rank} G'_e = \operatorname{rank} G'_e[Y_0 \cup I_1,\ Y_0 \cup I_2]\). Deleting the rows in \(I_1 \cap N(l)\) and the columns in \(I_2 \cap N(l)\) lowers this rank by at most their number and leaves a block of \(G'_l\): its rows and columns lie in \(S(l)\), off the diagonal it carries the entries of \(G'\), and its only diagonal positions lie in \(Y_0\) (as \(I_1 \cap I_2 = \emptyset\)), where \(e = l\). Since \(E \setminus T \subseteq X \setminus (I_1 \cup I_2)\), the sets \(E \setminus T\), \(N(l) \cap Y\), \(I_1 \cap N(l)\) and \(I_2 \cap N(l)\) are disjoint subsets of \(N(l)\). Therefore
+\[\lvert E \setminus T\rvert + q \le \lvert E \setminus T\rvert + \lvert N(l) \cap Y\rvert + \operatorname{rank} G'_e \le \lvert N(l)\rvert + \operatorname{rank} G'_l = \operatorname{cost}(G', l),\postdisplaypenalty=10000 \]
+which is what remained to be shown. \qed\par\endgroup
+
+\begin{theorem}[sharp threshold for closure rank]
+Let \(F\) be any field and \(k \ge 0\). If \(\rho(x) \ge k+1\) and \(\rho(x_T) \le k\) for every proper \(T \subsetneq E\), then \(n \le 2k+2\). Hence \(\rho(x) \le k\) if and only if \(\rho(x_T) \le k\) for all \(T\) with \(\lvert T\rvert \le 2k+2\), and \(2k+2\) cannot be lowered.
+\end{theorem}
+
+\emph{Proof.} By (c), \(\rho(x) = k+1\). If some cut rank is at least \(k+1\), there are disjoint \(R, C\) of size \(k+1\) with \(x[R, C]\) invertible; by (b) the sub-pattern on \(R \cup C\) has \(\rho \ge k+1\), so \(E = R \cup C\), as no proper sub-pattern has \(\rho \ge k+1\). Otherwise Theorem~1 with \(j = k\) gives \(T\) with \(\rho(x_T) = k+1\) and \(\lvert T\rvert \le 2k+1\), and \(T = E\) for the same reason. For the equivalence, apply this to an inclusion-minimal \(T\) with \(\rho(x_T) \ge k+1\) and use (a). Sharpness: the perfect matching on \(2k+2\) indices {[}DX10, Example 8{]} has a cut of rank \(k+1\), so \(\rho \ge k+1\) by (b), while a set of at most \(2k+1\) indices contains at most \(k\) matched pairs, and deleting one index of each leaves the zero pattern, so every proper sub-pattern has \(\rho \le k\). \qed
+
+\begin{theorem}[sharp set-theoretic finiteness]
+Let \(K\) be an algebraically closed field of any characteristic, \(k \ge 0\) and \(n \ge 2k+2\). A symmetric pattern \(x\) lies in \(X_{n,k}\) if and only if \(x_T\) lies in \(X_{T,k}\) for every \(T \subseteq E\) with \(\lvert T\rvert = 2k+2\). The same holds for arbitrary patterns and \(D_{n,k}\). In both statements \(2k+2\) cannot be replaced by a smaller number.
+\end{theorem}
+
+\emph{Proof.} By Lemma~1 the statements concern \(\{\rho \le k\}\), and as every \(T\) with \(\lvert T\rvert \le 2k+2\) lies in a set of exactly \(2k+2\) indices, by (a) the equivalences are that of Theorem~2. For sharpness, take the perfect matching {[}DX10, Example 8{]} on \(2k+2\) of the indices with all other off-diagonal entries zero: one of its minors \(\det x[R, C]\) with \(R \cap C = \emptyset\) and \(\lvert R\rvert = \lvert C\rvert = k+1\) is non-zero, and these minors vanish on the patterns with \(c \le k\), hence on both varieties; its sub-patterns on at most \(2k+1\) indices have \(\rho \le k\), as in Theorem~2, and so lie in both. \qed
+
+\hypertarget{question-29-and-conjecture-28-of-dss07}{%
+\section{Question~29 and Conjecture 28 of {[}DSS07{]}}\label{question-29-and-conjecture-28-of-dss07}}
+
+Let \(I_{p,m} \subset \mathbb{R}[\psi_{ij} : i < j]\) be the ideal of polynomials in the off-diagonal entries that vanish on the factor analysis model with \(p\) variables and \(m\) factors, the covariance matrices \(\Lambda\Lambda^{\mathsf T} + \Delta\) with \(\Lambda \in \mathbb{R}^{p \times m}\) and \(\Delta\) positive diagonal, and let \(I_{A,m}\) be the copy of \(I_{\lvert A\rvert, m}\) in the variables indexed by \(A\). Question~29 of {[}DSS07{]} asks whether for each \(m\) there is \(s(m)\) with \(I_{p,m} = \sum_{\lvert A\rvert = s(m)} I_{A,m}\) for all \(p > s(m)\), and whether there is \(t(m)\) for which this holds up to radical. The authors suggest \(t(m) = 2m+2\) and prove that principal submatrices of size \(2m+2\) decide membership in the \(m\)-factor model among the symmetric matrices with no vanishing minor of size \(m\) {[}DSS07, Proposition~30{]}. Draisma {[}Dr10, Theorem~1.2{]} proved that numbers \(N_0(k)\) and \(N_1(k)\), depending only on \(k\), decide membership in the varieties of off-diagonal parts of matrices of rank at most \(k\), general and symmetric, and observed that this settles the radical part of Question~29; no values were given. Over algebraically closed fields Theorem~3 shows that \(N_0(k) = N_1(k) = 2k+2\) can be taken and that no smaller value works, and Theorem~4 gives \(t(m) = 2m+2\).
+
+\begin{theorem}[the radical part of Question~29]
+For every \(m \ge 1\) and every \(p > 2m+2\), the ideals \(I_{p,m}\) and \(\sum_{\lvert A\rvert = 2m+2} I_{A,m}\) have the same radical. No number smaller than \(2m+2\) has this property for all larger \(p\).
+\end{theorem}
+
+\emph{Proof.} A complex polynomial vanishes on the off-diagonal parts of the model exactly when its real and imaginary parts do, so the complex variety of \(I_{p,m}\) is their Zariski closure. These parts do not depend on \(\Delta\), real matrices \(\Lambda\) are Zariski dense among complex ones, and every complex symmetric matrix of rank at most \(m\) is \(\Lambda\Lambda^{\mathsf T}\) with \(\Lambda \in \mathbb{C}^{p \times m}\); so the closure is \(X_{p,m}\) over \(\mathbb{C}\), and the complex variety of \(\sum_{\lvert A\rvert = t} I_{A,m}\) is the set of symmetric \(x\) with \(x_A \in X_{A,m}\) for all \(\lvert A\rvert = t\). By the Nullstellensatz, two ideals of the real polynomial ring have the same radical exactly when their complex varieties agree: for \(t = 2m+2\) they do by Theorem~3, and for \(t \le 2m+1\) and \(p = 2m+2\) they do not, by the perfect matching. \qed
+
+\begin{corollary}[equations on \(2k+1\) variables]
+Let \(K\) be algebraically closed and \(n \ge 2k+1\). A symmetric pattern \(x\) lies in \(X_{n,k}\) if and only if every minor \(\det x[R, C]\) with \(R \cap C = \emptyset\) and \(\lvert R\rvert = \lvert C\rvert = k+1\) vanishes and \(x_T \in X_{T,k}\) for every \(T\) with \(\lvert T\rvert = 2k+1\). The same holds for arbitrary patterns and \(D_{n,k}\).
+\end{corollary}
+
+\emph{Proof.} The minors vanish exactly when all cut ranks are at most \(k\). By Lemma~1, (a) and (b), it remains to find, when moreover \(\rho(x) \ge k+1\), a set of \(2k+1\) indices on which \(\rho \ge k+1\). An inclusion-minimal \(T_0\) with \(\rho(x_{T_0}) \ge k+1\) has \(\rho(x_{T_0}) = k+1\) by (c), and Theorem~1 with \(j = k\), applied to \(x_{T_0}\) (whose cut blocks are sub-blocks of those of \(x\)), gives a sub-pattern on at most \(2k+1\) indices with the same closure rank, so \(\lvert T_0\rvert \le 2k+1\) by minimality. Enlarge \(T_0\) to \(2k+1\) indices and use (a). \qed
+
+\begingroup\interlinepenalty=10000 So, beyond the off-diagonal \((k+1)\)-minors, \(X_{n,k}\) is cut out by equations in \(2k+1\) variables: none for \(k = 1\), as \(X_{3,1}\) is the whole space, the pentads for \(k = 2\) {[}DSS07, Example 12{]}, {[}BD11{]}, and, as Drton, Sturmfels and Sullivant conjectured and Theorem~6 shows, the septads for \(k = 3\). With \(\Psi = (\psi_{ij})\) and \(\Psi^0\) the same matrix with zero diagonal, a \emph{septad} is a linear eliminant of {[}DSS07{]} of the form
+\[\det \Psi[R, C] \cdot \det \Psi^0[(i, \bar R), (i, \bar C)] - \det \Psi[\bar R, \bar C] \cdot \det \Psi^0[(i, R), (i, C)],\postdisplaypenalty=10000 \]
+where \(R, C, \bar R, \bar C\) are three-element sets with \(R \cap C = \bar R \cap \bar C = \emptyset\) and \(R \cup C = \bar R \cup \bar C\), the index \(i\) lies outside \(R \cup C\), \((i, R)\) is the list \(R\) preceded by \(i\), and each of \(R, C, \bar R, \bar C\) is listed in the same order wherever it occurs. Septads lie in \(I_{p,3}\) and involve seven indices. Let \(J_{p,3} \subset \mathbb{R}[\psi_{ij} : i < j]\) be the ideal generated by the off-diagonal \(4 \times 4\) minors and the septads, and \(J_{A,3}\) its copy in the variables indexed by \(A\).\par\endgroup
+
+\begin{theorem}[Conjecture 28 of {[}DSS07{]}; uses the computation of {[}DSS07, Example 18{]}]
+For every \(p\), the radical of \(J_{p,3}\) is \(I_{p,3}\).
+\end{theorem}
+
+\emph{Proof.} As \(J_{p,3} \subseteq I_{p,3}\) and \(I_{p,3}\), being a vanishing ideal, is radical, it suffices, as in the proof of Theorem~4, to show that the complex variety \(V_p\) of \(J_{p,3}\) lies in \(X_{p,3}\). For \(p = 8\), let \(M_{8,3}\) be the ideal of \(\mathbb{Q}[\psi_{ij} : i \le j]\) generated by the \(4 \times 4\) minors of the generic symmetric \(8 \times 8\) matrix. The computation of {[}DSS07, Example 18{]} gives generators of the elimination ideal \(M_{8,3} \cap \mathbb{Q}[\psi_{ij} : i < j]\), each of which lies in \(J_{8,3}\) or has its square there; so this ideal vanishes on \(V_8\). Let \(g\) be a complex polynomial in the \(\psi_{ij}\), \(i < j\), vanishing on the symmetric patterns with \(c \le 3\). It vanishes on the complex symmetric matrices of rank at most 3, so by the Nullstellensatz some power \(g^r\) lies in the ideal generated by \(M_{8,3}\) over \(\mathbb{C}\). Expanding coefficients in a basis of \(\mathbb{C}\) over \(\mathbb{Q}\) writes \(g^r\) as a combination, with linearly independent complex coefficients, of elements of \(M_{8,3}\); these involve no diagonal variable because \(g^r\) involves none, so they vanish on \(V_8\), and so does \(g\). Hence \(V_8 \subseteq X_{8,3}\). For \(p \le 7\), extend \(x \in V_p\) to eight indices by zero off-diagonal entries. An off-diagonal \(4 \times 4\) minor of the extension uses all eight indices, so it has a zero row or column. A septad that involves a new index vanishes too: if the index lies in \(R \cup C\), both \(\det \Psi[R, C]\) and \(\det \Psi[\bar R, \bar C]\) have a zero row or column, and if it is \(i\), both determinants of \(\Psi^0\) have a zero row. The other septads are those of \(x\). So the extension lies in \(V_8 \subseteq X_{8,3}\), and its restriction \(x\) lies in \(X_{p,3}\), since restricting to a set of indices is a polynomial map that sends patterns with \(c \le 3\) to such patterns. For \(p \ge 9\) and \(x \in V_p\), the generators of \(J_{A,3}\) are among those of \(J_{p,3}\), so \(x_A \in V(J_{A,3}) = X_{A,3}\) for every set \(A\) of eight indices, and \(x \in X_{p,3}\) by Theorem~3. \qed
+
+\hypertarget{relation-to-known-results}{%
+\section{Relation to known results}\label{relation-to-known-results}}
+
+For symmetric \(k \le 2\) the threshold was known in a stronger, ideal-theoretic form: the tetrads generate \(I_{p,1}\) {[}DSS07, Theorem~16{]}, and the off-diagonal \(3 \times 3\) minors and the pentads generate the ideal of the two-factor variety over every field {[}BD11, Theorem~1.7{]}. Drton and Xiao {[}DX10{]} proved for \(m \le 2\) that principal submatrices of size \(2(m+1)\) decide membership in the real model itself, with its inequalities; after recalling Draisma's finiteness for the closure, they conjectured that \(2(m+1)\) is the distinguished size in general, and showed by the perfect matching that it cannot be smaller {[}DX10, Example 8{]}. Theorem~3 proves the conjecture for the Zariski closure; the model with its inequalities, and the first part of Question~29, on generators of the ideals, are not treated here. For \(c\) in place of \(\rho\), Theorem~1 and the bound \(n \le 2k+2\) of Theorem~2 are in the companion paper {[}FD26{]}; the new ingredient here is Lemma~2, which converts deleted indices into chosen diagonal entries. Non-symmetric \(k = 1\) is known in ideal-theoretic form {[}AKS23, Example 12{]}. To our knowledge Theorem~1, the upper bound in Theorem~2 and Theorem~6 are new, as are Theorem~3 for non-symmetric patterns with \(k \ge 2\) and for symmetric ones with \(k \ge 3\), and Theorem~4 for \(m \ge 3\).
+
+\hypertarget{formalization-and-computation}{%
+\section{Formalization and computation}\label{formalization-and-computation}}
+
+Facts (a) to (d), formula (1) and every numbered result are formalized in Lean 4 {[}Lean4{]} with Mathlib {[}Mathlib{]}, with no axioms beyond Lean's standard ones: \href{https://github.com/StableAttractor/research-companion/tree/6ea6f9c5e396a67cb100720ea44652ff521a2db8}{github.com/\allowbreak{}StableAttractor/\allowbreak{}\mbox{research-companion}} (commit \texttt{6ea6f9c}), file \texttt{lean/\allowbreak{}FreeDiagonal/\allowbreak{}Results.lean}; the table in \texttt{factor-analysis-threshold/\allowbreak{}README.md} maps each statement to its Lean name. This includes the completeness of \((\mathbb{P}^1)^n\) used in the proof of Lemma~1, proved in Lean by a different, elementary route. One input is an explicit hypothesis, for Theorem~6 only: the outcome of {[}DSS07, Example 18{]}, that every element of the elimination ideal \(M_{8,3} \cap \mathbb{Q}[\psi_{ij} : i < j]\) has a power in the ideal generated over \(\mathbb{Q}\) by the off-diagonal \(4 \times 4\) minors and the septads. The rest of the proof of Theorem~6, including the passage from \(\mathbb{Q}\) to \(\mathbb{R}\) and \(\mathbb{C}\), is derived from it in Lean. We reproduced this computation with Singular {[}DGPS23{]}; the scripts are in the same repository.
+
+\newpage\begin{thebibliography}{Mathlib}
+\footnotesize\linespread{1}\selectfont\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\bibitem[AKS23]{AKS23} Y. Alexandr, J. Kileel, B. Sturmfels, \emph{Moment varieties for mixtures of products}. Proceedings of ISSAC 2023, ACM, 2023. doi:10.1145/3597066.3597084. arXiv:2301.09068.
+\bibitem[BD11]{BD11} A. E. Brouwer, J. Draisma, \emph{Equivariant Gröbner bases and the Gaussian two-factor model}. Mathematics of Computation 80 (2011), 1123--1133. arXiv:0908.1530.
+\bibitem[Br13]{Br13} R. Brijder, \emph{The nullity theorem for principal pivot transform}. Linear Algebra and its Applications 439 (2013), 3638--3642. doi:10.1016/j.laa.2013.09.014. arXiv:1307.4272.
+\bibitem[DGPS23]{DGPS23} W. Decker, G.-M. Greuel, G. Pfister, H. Schönemann, \emph{Singular 4-3-2: a computer algebra system for polynomial computations}. \url{https://www.singular.uni-kl.de}, 2023.
+\bibitem[Dr10]{Dr10} J. Draisma, \emph{Finiteness for the k-factor model and chirality varieties}. Advances in Mathematics 223 (2010), 243--256. arXiv:0811.3503.
+\bibitem[DSS07]{DSS07} M. Drton, B. Sturmfels, S. Sullivant, \emph{Algebraic factor analysis: tetrads, pentads and beyond}. Probability Theory and Related Fields 138 (2007), 463--493. arXiv:math/0509390.
+\bibitem[DX10]{DX10} M. Drton, H. Xiao, \emph{Finiteness of small factor analysis models}. Annals of the Institute of Statistical Mathematics 62 (2010), 775--783. arXiv:0908.1736.
+\bibitem[FD26]{FD26} \emph{The sharp 2k+2 obstruction bound for minimum-rank completion with a free diagonal}. Companion paper, 2026. \url{https://github.com/StableAttractor/research-companion}.
+\bibitem[FM87]{FM87} M. Fiedler, T. L. Markham, \emph{Rank-preserving diagonal completions of a matrix}. Linear Algebra and its Applications 85 (1987), 49--56. doi:10.1016/0024-3795(87)90207-2.
+\bibitem[Lean4]{Lean4} L. de Moura, S. Ullrich, \emph{The Lean 4 theorem prover and programming language}. Automated Deduction -- CADE 28, Springer, 2021, 625--635. doi:10.1007/978-3-030-79876-5\_37.
+\bibitem[Mathlib]{Mathlib} The mathlib Community, \emph{The Lean mathematical library}. Certified Programs and Proofs (CPP 2020), ACM, 2020, 367--381. doi:10.1145/3372885.3373824.
+\bibitem[Ox11]{Ox11} J. Oxley, \emph{Matroid Theory}, 2nd edition. Oxford University Press, 2011.
+\bibitem[Stacks]{Stacks} The Stacks project authors, \emph{The Stacks project}. \url{https://stacks.math.columbia.edu}.
+\end{thebibliography}
+\end{document}

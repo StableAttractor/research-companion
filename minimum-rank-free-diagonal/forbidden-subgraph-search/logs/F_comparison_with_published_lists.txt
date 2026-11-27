@@ -1,0 +1,22 @@
+k = 1: published 2 graphs (by number of vertices: {3: 1, 4: 1}); enumerated 2 graphs
+   published graphs matched one-to-one by an enumerated graph (isomorphism): 2 of 2
+   published graphs with no match: none
+   enumerated graphs not in the published list: 0
+   independent check, each published graph has mr = 2 and every vertex-deleted subgraph has mr <= 1: 2 of 2
+   largest published graph: 4 vertices; 2k + 2 = 4
+   RESULT: lists identical
+k = 2: published 7 graphs (by number of vertices: {4: 1, 5: 4, 6: 2}); enumerated 7 graphs
+   published graphs matched one-to-one by an enumerated graph (isomorphism): 7 of 7
+   published graphs with no match: none
+   enumerated graphs not in the published list: 0
+   independent check, each published graph has mr = 3 and every vertex-deleted subgraph has mr <= 2: 7 of 7
+   largest published graph: 6 vertices; 2k + 2 = 6
+   RESULT: lists identical
+k = 3: published 62 graphs (by number of vertices: {5: 1, 6: 31, 7: 26, 8: 4}); enumerated 62 graphs
+   published graphs matched one-to-one by an enumerated graph (isomorphism): 62 of 62
+   published graphs with no match: none
+   enumerated graphs not in the published list: 0
+   independent check, each published graph has mr = 4 and every vertex-deleted subgraph has mr <= 3: 62 of 62
+   largest published graph: 8 vertices; 2k + 2 = 8
+   RESULT: lists identical
+OVERALL: all three lists agree graph by graph

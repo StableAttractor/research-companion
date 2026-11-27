@@ -5,6 +5,12 @@ Formalization for this paper (full and short versions). The Lean project is in
 `lean/FreeDiagonal/Results.lean`, and is the name printed in the paper's formalization table.
 The proof is in the library file given.
 
+## Contents
+
+- [`paper/`](paper/): the paper, full version ([PDF](paper/minimum-rank-free-diagonal.pdf)) and short version ([PDF](paper/minimum-rank-free-diagonal-short.pdf)), with LaTeX sources.
+- [`forbidden-subgraph-search/`](forbidden-subgraph-search/): the exhaustive search over graphs on at most 8 vertices reported in the paper (Section 7; Section 4 of the short version), with its logs.
+- The formalization: the table below, and the Lean project in [`../lean/`](../lean/).
+
 ## Statements
 
 | Statement in the paper | Lean name | Proof in `lean/FreeDiagonal/` |
