@@ -18,7 +18,7 @@ jobs:
           lake-package-directory: lean
           use-mathlib-cache: true
 
-      # Every theorem of FreeDiagonal/Results.lean may use only propext, Classical.choice and
+      # Every theorem listed in PrintAxioms.lean may use only propext, Classical.choice and
       # Quot.sound (a `sorry` would show up here as sorryAx).
       - name: Check axioms
         working-directory: lean
@@ -28,8 +28,9 @@ jobs:
           found=$(grep -cE 'depends on axioms|does not depend on any axioms' axioms.txt)
           echo "theorems: expected $expected, reported $found"
           test "$found" -eq "$expected"
-          grep 'depends on axioms' axioms.txt | sed 's/.*\[\(.*\)\]/\1/' | tr ',' '\n' \
-            | tr -d ' ' | sort -u > used.txt
+          # Lean wraps long lines, so join the output before reading each axiom list.
+          tr '\n' ' ' < axioms.txt | grep -oE 'depends on axioms: \[[^]]*\]' \
+            | sed 's/.*\[\(.*\)\]/\1/' | tr ',' '\n' | tr -d ' ' | grep -v '^$' | sort -u > used.txt
           echo "axioms used:"; cat used.txt
           if grep -vxE 'propext|Classical\.choice|Quot\.sound' used.txt; then
             echo "unexpected axiom"; exit 1
